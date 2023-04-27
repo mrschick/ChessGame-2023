@@ -5,7 +5,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-<<<<<<< Updated upstream
     <groupId>710e0a60</groupId>
     <artifactId>ChessGame</artifactId>
     <version>1.0</version>
@@ -17,16 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>20</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-=======
-    <groupId>it.unibz.pp</groupId>
-    <artifactId>collections</artifactId>
-    <version>1.0</version>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
->>>>>>> Stashed changes
     </properties>
 
     <dependencies>
@@ -48,7 +37,6 @@
             <version>0.8.7</version>
             <scope>test</scope>
         </dependency>
-<<<<<<< Updated upstream
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -60,8 +48,6 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.1.0</version>
         </dependency>
-=======
->>>>>>> Stashed changes
     </dependencies>
 
     <build>
@@ -92,7 +78,6 @@
                     </execution>
                 </executions>
             </plugin>
-<<<<<<< Updated upstream
 
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -146,8 +131,6 @@
                     <mainClass>GUIStarter</mainClass>
                 </configuration>
             </plugin>
-=======
->>>>>>> Stashed changes
         </plugins>
     </build>
 
