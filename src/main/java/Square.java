@@ -6,18 +6,19 @@ import javafx.scene.paint.Paint;
 import java.util.Stack;
 
 public class Square extends StackPane {
+
     String position;
     Rectangle square = new Rectangle(80, 80);
 
-    public Square(){
+    public Square() {
         getChildren().add(square);
     }
 
-    public String getPosition(){return position;}
+    public String getPosition() { return position; }
 
-    public void setPosition(String pos){this.position = pos;}
+    public void setPosition(String pos) { this.position = pos; }
 
-    public void setColor(Paint color){
+    public void setColor(Paint color) {
         square.setFill(color);
     }
 

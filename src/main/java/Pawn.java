@@ -1,4 +1,4 @@
-public class Pawn implements Piece{
+public class Pawn implements Piece {
 
     @Override
     public boolean kill(Piece p) {
@@ -6,7 +6,7 @@ public class Pawn implements Piece{
     }
 
     @Override
-    public boolean Move(Square s) {
+    public boolean move(Square s) {
         return false;
     }
 
@@ -14,4 +14,5 @@ public class Pawn implements Piece{
     public boolean seek(Piece p) {
         return false;
     }
+
 }

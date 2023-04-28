@@ -1,11 +1,12 @@
-public class Queen implements Piece{
+public class Queen implements Piece {
+
     @Override
     public boolean kill(Piece p) {
         return false;
     }
 
     @Override
-    public boolean Move(Square s) {
+    public boolean move(Square s) {
         return false;
     }
 
@@ -13,4 +14,5 @@ public class Queen implements Piece{
     public boolean seek(Piece p) {
         return false;
     }
+
 }
