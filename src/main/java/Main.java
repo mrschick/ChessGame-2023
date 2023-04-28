@@ -3,15 +3,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public void start(Stage primaryStage){
+
+    public void start(Stage primaryStage) {
         Board board = new Board();
         Scene scene = new Scene(board, 800, 650);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Chess 2D");
         primaryStage.show();
-
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         launch(args);
     }
+
 }
