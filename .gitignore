@@ -30,7 +30,7 @@ hs_err_pid*
 
 # IntelliJ IDE
 .idea/*
-collections.iml
+*.iml
 
 # MAVEN
 target
