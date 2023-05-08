@@ -21,16 +21,23 @@ public class Board extends GridPane {
         setBackground(new Background(new BackgroundFill(Color.rgb(222, 184, 135), CornerRadii.EMPTY, Insets.EMPTY)));
 
         for (int i = 0; i < 8; i++) {
+            int postion_number = 8;
             for (int j = 0; j < 8; j++) {
+                char position_char = (char) (j+ 97);
                 if (i % 2 != 0) {
                     Square sq = new Square();
+                    sq.setPosition(String.valueOf(position_char) + postion_number);
+
                     if (j % 2 == 0)
                         sq.setColor(first);
                     else
                         sq.setColor(second);
                     add(sq, j + 1, i + 1);
-                } else {
+                }
+                else {
                     Square sq = new Square();
+                    sq.setPosition(String.valueOf(position_char) + postion_number);
+
                     if (j % 2 == 0)
                         sq.setColor(second);
                     else
