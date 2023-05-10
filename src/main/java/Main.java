@@ -6,7 +6,7 @@ public class Main extends Application {
 
     public void start(Stage primaryStage) {
         Board board = new Board();
-        Scene scene = new Scene(board, 675, 730);
+        Scene scene = new Scene(board, 680, 770);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Chess 2D");
         primaryStage.show();
