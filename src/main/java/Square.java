@@ -10,7 +10,7 @@ import javafx.scene.paint.Paint;
 public class Square extends StackPane {
 
     String position;
-    Rectangle square = new Rectangle(80, 80);
+    Rectangle square = new Rectangle(75, 75);
 
     public Square() {
         getChildren().add(square);

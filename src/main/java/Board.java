@@ -8,99 +8,27 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.util.Duration;
+import javafx.animation.Animation;
 
 public class Board extends GridPane {
 
     Color first = Color.rgb(133, 94, 66);
     Color second = Color.rgb(222, 184, 135);
     Color black = Color.BLACK;
-
     private Text timerText1, timerText2;
     private Timeline timeline1, timeline2;
-    private int remainingTime1 = 10, remainingTime2 = 10;
+    private int remainingTime1 = 07, remainingTime2 = 05;
 
     public Board() {
-        setBackground(new Background(new BackgroundFill(Color.rgb(222, 184, 135), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        // this code adds a Start Button for timer1
-        Button startButton1 = new Button("White Player");
-        add(startButton1, 1, 10);
-        startButton1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                startTimer1();
-            }
-        });
-
-        // this code adds a timer text1, in the corner of the Chessboard.
-        timerText1 = new Text("00:10");
-        timerText1.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
-        timerText1.setFill(Color.rgb(255, 255, 255));
-        add(timerText1, 1, 11);
-        setHalignment(timerText1, HPos.CENTER);
-        setValignment(timerText1, VPos.CENTER);
-
-        // this code adds a Pause Button for timer1
-        Button pauseButton1 = new Button("Next Player");
-        add(pauseButton1, 2, 10);
-        pauseButton1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                pauseTimer1();
-            }
-
-            private void pauseTimer1() {
-                if (timeline1 != null && timeline1.getStatus() == Animation.Status.RUNNING) {
-                    timeline1.pause();
-                }
-            }
-        });
-
-        // this code adds a Start Button for timer2
-        Button startButton2 = new Button("Black Player");
-        add(startButton2, 7, 10);
-        startButton2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                startTimer2();
-            }
-        });
-
-        // this code adds a timer text2, in the corner of the Chessboard.
-        timerText2 = new Text("00:10");
-        timerText2.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
-        timerText2.setFill(black);
-        add(timerText2, 8, 11);
-        setHalignment(timerText2, HPos.CENTER);
-        setValignment(timerText2, VPos.CENTER);
-
-        // this code adds a Pause Button for timer2
-        Button pauseButton2 = new Button("Next Player");
-        add(pauseButton2, 8, 10);
-        pauseButton2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                pauseTimer2();
-            }
-
-            private void pauseTimer2() {
-                if (timeline2 != null && timeline2.getStatus() == Animation.Status.RUNNING) {
-                    timeline2.pause();
-                }
-            }
-        });
 
         for (int i = 0; i < 8; i++) {
             int postion_number = 8;
@@ -125,8 +53,89 @@ public class Board extends GridPane {
                         sq.setColor(first);
                     add(sq, j + 1, i + 1);
                 }
+                setTranslateX(0);
+                setTranslateY(35);
             }
         }
+        Button startButton1 = new Button("Start Game");
+        startButton1.setTranslateX(125);
+        startButton1.setTranslateY(680);
+        add(startButton1, 0, 0);
+
+        startButton1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                startTimer1();
+                startTimer2();
+            }
+        });
+
+        Button pauseButton1 = new Button("Pause Game");
+        add(pauseButton1, 0, 0);
+        pauseButton1.setTranslateX(390);
+        pauseButton1.setTranslateY(680);
+
+        pauseButton1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                resetTimer1();
+            }
+
+            private void resetTimer1() {
+                if (timeline1 != null && timeline1.getStatus() == Animation.Status.RUNNING) {
+                    timeline1.pause();
+                    timeline2.pause();
+                }
+            }
+        });
+
+        Button resetButton = new Button("Reset Game");
+        resetButton.setTranslateX(655);
+        resetButton.setTranslateY(680);
+        add(resetButton, 0, 0);
+
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                remainingTime1 = 8;
+                remainingTime2 = 6;
+                timeline1.pause();
+                timeline1.getKeyFrames().clear();
+                timeline2.pause();
+                timeline2.getKeyFrames().clear();
+                startTimer1();
+                startTimer2();
+            }
+        });
+
+        timerText1 = new Text("00:07");
+        timerText1.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
+        timerText1.setFill(Color.rgb(255, 255, 255));
+        timerText1.setTranslateX(850);
+        timerText1.setTranslateY(145);
+        getChildren().add(timerText1);
+
+        Text aboveText = new Text("White's time:");
+        aboveText.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
+        aboveText.setFill(Color.rgb(255, 255, 255));
+        aboveText.setTranslateX(timerText1.getTranslateX());
+        aboveText.setTranslateY(timerText1.getTranslateY() - 30);
+        getChildren().add(aboveText);
+
+        timerText2 = new Text("00:05");
+        timerText2.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
+        timerText2.setFill(black);
+        timerText2.setTranslateX(850);
+        timerText2.setTranslateY(450);
+        getChildren().add(timerText2);
+
+        Text aboveText1 = new Text("Black's time:");
+        aboveText1.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
+        aboveText1.setFill(black);
+        aboveText1.setTranslateX(timerText2.getTranslateX());
+        aboveText1.setTranslateY(timerText2.getTranslateY() - 30);
+        getChildren().add(aboveText1);
+
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));
             text.setFont(Font.font("Helvetica", FontWeight.BOLD, 18));
@@ -134,6 +143,8 @@ public class Board extends GridPane {
             add(text, i + 1, 0);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
+            text.setTranslateY(8.8);
+
         }
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));
@@ -151,6 +162,7 @@ public class Board extends GridPane {
             add(text, 0, i + 1);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
+            text.setTranslateX(55);
         }
 
         for (int i = 0; i < 8; i++) {
@@ -164,13 +176,14 @@ public class Board extends GridPane {
 
     }
 
-    // this code decrements the Remaining time every second.
     private void startTimer1() {
         timeline1 = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             remainingTime1--;
             updateTimerText1();
+            updateTimerText2();
             if (remainingTime1 <= 0) {
                 stopTimer1();
+                stopTimer2();
             }
         }));
         timeline1.setCycleCount(Timeline.INDEFINITE);
@@ -181,51 +194,55 @@ public class Board extends GridPane {
         timeline2 = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             remainingTime2--;
             updateTimerText2();
+            updateTimerText1();
             if (remainingTime2 <= 0) {
                 stopTimer2();
+                stopTimer1();
+
             }
         }));
         timeline2.setCycleCount(Timeline.INDEFINITE);
         timeline2.play();
     }
 
-    // this code stops the Timeline that was started by startTimer.
-    // and creates a new Stage once the timer is finished with a text on it.
     private void stopTimer1() {
         timeline1.stop();
-        remainingTime1 = 10;
+        remainingTime1 = 07;
         updateTimerText1();
-        Stage stage = new Stage();
-        Text message = new Text("White is out of time!");
+        updateTimerText2();
+        Text message = new Text("White is out of time! Black won.");
         message.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
         message.setFill(Color.WHITE);
         VBox root = new VBox(message);
-        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(133, 94, 66), null, null);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(133, 94, 66),
+                null, null);
         Background background = new Background(backgroundFill);
         root.setBackground(background);
-        Scene scene = new Scene(root, 250, 40);
+        Stage stage = new Stage();
+        Scene scene = new Scene(root, 380, 40);
         stage.setScene(scene);
         stage.show();
     }
 
     private void stopTimer2() {
         timeline2.stop();
-        remainingTime2 = 10;
+        remainingTime2 = 05;
         updateTimerText2();
+        updateTimerText1();
         Stage stage = new Stage();
-        Text message = new Text("Black is out of Time!");
+        Text message = new Text("Black is out of Time! White won");
         message.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
-        message.setFill(Color.WHITE);
+        message.setFill(Color.BLACK);
         VBox root = new VBox(message);
-        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(133, 94, 66), null, null);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(133, 94, 66),
+                null, null);
         Background background = new Background(backgroundFill);
         root.setBackground(background);
-        Scene scene = new Scene(root, 250, 40);
+        Scene scene = new Scene(root, 380, 40);
         stage.setScene(scene);
         stage.show();
     }
 
-    // this code updates the timer on the screen.
     private void updateTimerText1() {
         int minutes = remainingTime1 / 60;
         int seconds = remainingTime1 % 60;
@@ -237,4 +254,5 @@ public class Board extends GridPane {
         int seconds = remainingTime2 % 60;
         timerText2.setText(String.format("%d:%02d", minutes, seconds));
     }
+
 }
