@@ -2,8 +2,10 @@
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -53,13 +55,11 @@ public class Board extends GridPane {
                         sq.setColor(first);
                     add(sq, j + 1, i + 1);
                 }
-                setTranslateX(0);
-                setTranslateY(35);
             }
         }
         Button startButton1 = new Button("Start Game");
-        startButton1.setTranslateX(125);
-        startButton1.setTranslateY(680);
+        startButton1.setTranslateX(153);
+        startButton1.setTranslateY(695);
         add(startButton1, 0, 0);
 
         startButton1.setOnAction(new EventHandler<ActionEvent>() {
@@ -72,8 +72,8 @@ public class Board extends GridPane {
 
         Button pauseButton1 = new Button("Pause Game");
         add(pauseButton1, 0, 0);
-        pauseButton1.setTranslateX(390);
-        pauseButton1.setTranslateY(680);
+        pauseButton1.setTranslateX(420);
+        pauseButton1.setTranslateY(695);
 
         pauseButton1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -90,8 +90,8 @@ public class Board extends GridPane {
         });
 
         Button resetButton = new Button("Reset Game");
-        resetButton.setTranslateX(655);
-        resetButton.setTranslateY(680);
+        resetButton.setTranslateX(685);
+        resetButton.setTranslateY(695);
         add(resetButton, 0, 0);
 
         resetButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -112,7 +112,7 @@ public class Board extends GridPane {
         timerText1.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
         timerText1.setFill(Color.rgb(255, 255, 255));
         timerText1.setTranslateX(850);
-        timerText1.setTranslateY(145);
+        timerText1.setTranslateY(165);
         getChildren().add(timerText1);
 
         Text aboveText = new Text("White's time:");
@@ -122,11 +122,21 @@ public class Board extends GridPane {
         aboveText.setTranslateY(timerText1.getTranslateY() - 30);
         getChildren().add(aboveText);
 
+        Rectangle rectangle = new Rectangle();
+        rectangle.setHeight(85);
+        rectangle.setWidth(150);
+        rectangle.setTranslateX(845);
+        rectangle.setTranslateY(150);
+        rectangle.setStroke(Color.BLACK);
+        rectangle.setStrokeWidth(3);
+        rectangle.setFill(null);
+        getChildren().add(rectangle);
+
         timerText2 = new Text("00:05");
         timerText2.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
         timerText2.setFill(black);
         timerText2.setTranslateX(850);
-        timerText2.setTranslateY(450);
+        timerText2.setTranslateY(545);
         getChildren().add(timerText2);
 
         Text aboveText1 = new Text("Black's time:");
@@ -136,6 +146,36 @@ public class Board extends GridPane {
         aboveText1.setTranslateY(timerText2.getTranslateY() - 30);
         getChildren().add(aboveText1);
 
+        Rectangle rectangle1 = new Rectangle();
+        rectangle1.setHeight(80);
+        rectangle1.setWidth(150);
+        rectangle1.setTranslateX(845);
+        rectangle1.setTranslateY(535);
+        rectangle1.setStroke(Color.BLACK);
+        rectangle1.setStrokeWidth(3);
+        rectangle1.setFill(null);
+        getChildren().add(rectangle1);
+
+        Rectangle rectangle2 = new Rectangle();
+        rectangle2.setHeight(80);
+        rectangle2.setWidth(150);
+        rectangle2.setTranslateX(845);
+        rectangle2.setTranslateY(250);
+        rectangle2.setStroke(Color.BLACK);
+        rectangle2.setStrokeWidth(3);
+        rectangle2.setFill(null);
+        getChildren().add(rectangle2);
+
+        Rectangle rectangle3 = new Rectangle();
+        rectangle3.setHeight(80);
+        rectangle3.setWidth(150);
+        rectangle3.setTranslateX(845);
+        rectangle3.setTranslateY(430);
+        rectangle3.setStroke(Color.BLACK);
+        rectangle3.setStrokeWidth(3);
+        rectangle3.setFill(null);
+        getChildren().add(rectangle3);
+
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));
             text.setFont(Font.font("Helvetica", FontWeight.BOLD, 18));
@@ -143,7 +183,7 @@ public class Board extends GridPane {
             add(text, i + 1, 0);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
-            text.setTranslateY(8.8);
+            text.setTranslateY(30);
 
         }
         for (int i = 0; i < 8; i++) {
@@ -153,6 +193,7 @@ public class Board extends GridPane {
             add(text, i + 1, 9);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
+
         }
 
         for (int i = 0; i < 8; i++) {
@@ -162,14 +203,14 @@ public class Board extends GridPane {
             add(text, 0, i + 1);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
-            text.setTranslateX(55);
+            text.setTranslateX(68);
         }
 
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Integer.toString(8 - i));
             text.setFont(Font.font("Helvetica", FontWeight.BOLD, 18));
             text.setFill(black);
-            add(text, 9, i + 1); // add to column 1, row i-7
+            add(text, 9, i + 1);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
         }

@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 public class MenuHandler {
 
     public void handleInformationAction(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Information");
         alert.setHeaderText("This is a 2D Chess Game, created by Sharjeel,Fabio and Ridvan.");
         alert.showAndWait();

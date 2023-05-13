@@ -1,11 +1,8 @@
 
-//import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
-//import java.util.Stack;
 
 public class Square extends StackPane {
 
