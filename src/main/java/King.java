@@ -6,17 +6,17 @@ public class King implements Piece {
     Color color;
 
     @Override
-    public boolean kill(Piece p) {
+    public boolean kill(Square sq) {
         return false;
     }
 
     @Override
-    public boolean move(Square s) {
+    public boolean move(Square sq) {
         return false;
     }
 
     @Override
-    public boolean seek(Piece p) {
+    public boolean seek(Square sq) {
         return false;
     }
 

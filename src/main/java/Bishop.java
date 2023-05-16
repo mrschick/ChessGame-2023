@@ -4,19 +4,20 @@ public class Bishop implements Piece {
 
     private String position = "";
     private Color color;
+    private int num_moves = 0;
 
     @Override
-    public boolean kill(Piece p) {
+    public boolean kill(Square sq) {
+        return true;
+    }
+
+    @Override
+    public boolean move(Square sq) {
         return false;
     }
 
     @Override
-    public boolean move(Square s) {
-        return false;
-    }
-
-    @Override
-    public boolean seek(Piece p) {
+    public boolean seek(Square sq) {
         return false;
     }
 
