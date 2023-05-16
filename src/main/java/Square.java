@@ -10,13 +10,9 @@ import javafx.scene.paint.Paint;
 public class Square extends StackPane {
 
     String position;
-<<<<<<< Updated upstream
-    Rectangle square = new Rectangle(80, 80);
-=======
     Rectangle square = new Rectangle(75, 75);
     private boolean contains_chess_piece = false;
     private Piece chessPiece = null;
->>>>>>> Stashed changes
 
     public Square() {
         getChildren().add(square);
@@ -33,6 +29,18 @@ public class Square extends StackPane {
 
     public void setColor(Paint color) {
         square.setFill(color);
+    }
+
+    public <T extends Piece> void setChessPiece(T piece){
+        chessPiece = piece;
+        contains_chess_piece = true;
+    }
+
+    public boolean isChessPiece(){
+        if(contains_chess_piece)
+            return true;
+        else
+            return false;
     }
 
 }
