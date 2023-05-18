@@ -1,10 +1,13 @@
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Pawn implements Piece {
 
-    private String position = "";
+    private String position;
+    private ArrayList<String> list;
     //Possible moves and kills for a pawn piece
     private String move1 = "m1";
     private String move2 = "m2";
@@ -14,6 +17,9 @@ public class Pawn implements Piece {
     private int num_moves;
     private String imageAddress = "C:\\Users\\sharjeel\\ChessGame-2023\\src\\main\\pawn.png";
 
+    public Pawn(){
+        list = new ArrayList<>();
+    }
     @Override
     public boolean kill(Square sq) {
         if ((sq.isChessPiece()) && (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2))))
@@ -32,20 +38,22 @@ public class Pawn implements Piece {
     }
 
     @Override
-    public Map<String, String> seek() {
-        availableMoves();
-        availableKills();
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(move1, "m");
-        map.put(move2, "m");
-        map.put(kill1, "k");
-        map.put(kill2, "k");
-        return map;
-
+    public ArrayList<String> seek() {
+        allLegalMoves();
+        allLegalKills();
+        list.add(move1);
+        list.add(move2);
+        list.add(kill1);
+        list.add(kill2);
+        return list;
     }
 
     @Override
-    public void setPosition(String pos) {this.position = pos;}
+    public void setPosition(String pos) {
+        position = pos;
+        System.out.println(position);
+        System.out.println(pos);
+    }
 
     @Override
     public String getPosition() {return position;}
@@ -64,8 +72,9 @@ public class Pawn implements Piece {
     }
 
     //submethod to check all possible moves for pawn under idead situations
-    private void availableMoves(){
-        int row = position.charAt(1);
+    private void allLegalMoves(){
+        int row = Integer.parseInt(position.substring(1));
+        System.out.println(row);
 
         //Checks available moves for Black pawns
         if (color.equals(Color.BLACK)){
@@ -91,20 +100,20 @@ public class Pawn implements Piece {
     }
 
     //submethod to find all available kills for pawn under ideal conditions
-    private void availableKills(){
-        int row = position.charAt(1);
+    private void allLegalKills(){
+        int row = Integer.parseInt(position.substring(1));
         int column = position.charAt(0);
 
         if (color.equals(Color.BLACK)){
             if (row > 1){
-                kill1 = String.valueOf(column - 1) + (row - 1);
-                kill2 = String.valueOf(column + 1) + (row - 1);
+                kill1 = String.valueOf((char)(column - 1)) + (row - 1);
+                kill2 = String.valueOf((char)(column + 1)) + (row - 1);
             }
         }
         else if (color.equals(Color.WHITE)){
             if (row < 8){
-                kill1 = String.valueOf(column - 1) + (row + 1);
-                kill2 = String.valueOf(column + 1) + (row + 1);
+                kill1 = String.valueOf((char)(column - 1)) + (row + 1);
+                kill2 = String.valueOf((char)(column + 1)) + (row + 1);
             }
         }
     }

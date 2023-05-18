@@ -1,4 +1,6 @@
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 public interface Piece {
@@ -6,7 +8,7 @@ public interface Piece {
 
     public boolean move(Square sq);
 
-    public Map<String, String> seek();
+    public ArrayList<String> seek();
 
     public void setPosition(String pos);
 

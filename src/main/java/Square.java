@@ -18,7 +18,7 @@ public class Square extends StackPane {
     String position;
     Rectangle square = new Rectangle(75, 75);
     private boolean contains_chess_piece = false;
-    private Piece chessPiece = null;
+    public Piece chessPiece = null;
 
     //Constructor to use Square object as a chess square.
     public Square() {

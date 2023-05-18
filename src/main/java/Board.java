@@ -78,6 +78,17 @@ public class Board extends GridPane {
                 }
             }
         }
+        /*
+        Rook rook = new Rook();
+        Square sq1 = new Square(rook);
+        add(sq1,1, 2);
+        sq1.chessPiece.setPosition("a7");
+        sq1.chessPiece.setColor(Color.BLACK);
+        System.out.println(sq1.isChessPiece());
+        System.out.println(sq1.chessPiece.getPosition());
+        System.out.println(sq1.chessPiece.seek());
+        */
+
 
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));

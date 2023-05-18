@@ -1,5 +1,6 @@
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ public class Queen implements Piece {
 
     private String position = "";
     private Color color;
+    private ArrayList<String> list;
 
     @Override
     public boolean kill(Square sq) {
@@ -19,9 +21,8 @@ public class Queen implements Piece {
     }
 
     @Override
-    public Map<String, String> seek() {
-        Map<String, String> map = new HashMap<>();
-        return map;
+    public ArrayList<String> seek() {
+        return list;
     }
 
     @Override
