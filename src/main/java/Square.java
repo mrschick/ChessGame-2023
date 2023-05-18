@@ -1,9 +1,15 @@
-
-//import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 //import java.util.Stack;
 
@@ -14,10 +20,22 @@ public class Square extends StackPane {
     private boolean contains_chess_piece = false;
     private Piece chessPiece = null;
 
+    //Constructor to use Square object as a chess square.
     public Square() {
         getChildren().add(square);
         square.setStroke(Color.BLACK);
     }
+
+    //Constructor to use Squaer object as a chess piece.
+    public <T extends Piece> Square(T chessPiece) {
+        this.chessPiece = chessPiece;
+        contains_chess_piece = true;
+        Image img = new Image(this.chessPiece.getImageAddress());
+        ImageView image = new ImageView();
+        image.setImage(img);
+        getChildren().add(image);
+    }
+
 
     public String getPosition() {
         return position;
@@ -31,11 +49,7 @@ public class Square extends StackPane {
         square.setFill(color);
     }
 
-    public <T extends Piece> void setChessPiece(T piece){
-        chessPiece = piece;
-        contains_chess_piece = true;
-    }
-
+    //Checks if square is a chess piece or a square
     public boolean isChessPiece(){
         if(contains_chess_piece)
             return true;
