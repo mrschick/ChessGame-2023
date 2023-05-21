@@ -1,8 +1,8 @@
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Bishop implements Piece {
 
@@ -11,13 +11,32 @@ public class Bishop implements Piece {
     private int num_moves = 0;
     private ArrayList<String> list;
 
+    public Bishop(Color color){
+        list = new ArrayList<>();
+        this.color = color;
+    }
+
     @Override
     public boolean kill(Square sq) {
-        return true;
+        allLegalMoves();
+        if (sq.isChessPiece() && !(sq.getColor().equals(this.color))){
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean move(Square sq) {
+        allLegalMoves();
+        if (!(sq.isChessPiece())){
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -39,7 +58,29 @@ public class Bishop implements Piece {
 
     @Override
     public String getImageAddress() {
-        return null;
+        File path = null;
+        try {
+            if (color.equals(Color.BLACK)) {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bBishop.png");
+            } else {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wBishop.png");
+            }
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+        return path.getAbsolutePath();
+    }
+
+    private void allLegalMoves(){
+        int column = position.charAt(0);
+        int row = Integer.parseInt(position.substring(1));
+
+        for (int i = 0; i < 8; i++){
+            list.add(String.valueOf((char) (column + i)) + (row + i));
+            list.add(String.valueOf((char) (column + i)) + (row - i));
+            list.add(String.valueOf((char) (column - i)) + (row + i));
+            list.add(String.valueOf((char) (column - i)) + (row - i));
+        }
     }
 
 

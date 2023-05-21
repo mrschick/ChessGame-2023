@@ -1,28 +1,26 @@
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Rook implements Piece {
 
     private String position = "";
-    private String imageAddress = "C:\\Users\\sharjeel\\ChessGame-2023\\src\\main\\rook.png";
     private Color color;
     private ArrayList<String> list;
 
-    public Rook(){
+    public Rook(Color color){
         list = new ArrayList<>();
+        this.color = color;
     }
     @Override
     public boolean kill(Square sq) {
         allLegalMoves();
         if (sq.isChessPiece()){
-            for (int i = 0; i < 8; i++){
-                if (list.get(i).equals(sq.getPosition()))
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
                     return true;
-                else
-                    return false;
             }
         }
         return false;
@@ -31,12 +29,10 @@ public class Rook implements Piece {
     @Override
     public boolean move(Square sq) {
         allLegalMoves();
-        if (!(sq.isChessPiece())){
-            for (int i = 0; i < 8; i++){
-                if (list.get(i).equals(sq.getPosition()))
+        if (!(sq.isChessPiece()) && !(sq.getColor().equals(this.color))){
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
                     return true;
-                else
-                    return false;
             }
         }
         return false;
@@ -59,7 +55,17 @@ public class Rook implements Piece {
 
     @Override
     public String getImageAddress() {
-        return imageAddress;
+        File path = null;
+        try {
+            if (color.equals(Color.BLACK)) {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bRook.png");
+            } else {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wRook.png");
+            }
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+        return path.getAbsolutePath();
     }
 
     private void allLegalMoves(){

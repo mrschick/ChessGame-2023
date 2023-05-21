@@ -1,8 +1,6 @@
 import javafx.scene.paint.Color;
-
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class King implements Piece {
 
@@ -10,18 +8,38 @@ public class King implements Piece {
     private Color color;
     private ArrayList<String> list;
 
+    public King(Color color){
+        list = new ArrayList<>();
+        this.color = color;
+    }
+
     @Override
     public boolean kill(Square sq) {
+        allLegalMoves();
+        if (sq.isChessPiece() && !(sq.getColor().equals(this.color))){
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
+                    return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean move(Square sq) {
+        allLegalMoves();
+        if (!(sq.isChessPiece()) && !(goesIntoCheck())){
+            for (String s : list) {
+                if (s.equals(sq.getPosition()))
+                    return true;
+            }
+        }
         return false;
     }
 
     @Override
     public ArrayList<String> seek() {
+        allLegalMoves();
         return list;
     }
 
@@ -39,7 +57,37 @@ public class King implements Piece {
 
     @Override
     public String getImageAddress() {
-        return null;
+        File path = null;
+        try {
+            if (color.equals(Color.BLACK)) {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bKing.png");
+            } else {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wKing.png");
+            }
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+        return path.getAbsolutePath();
     }
+
+    private void allLegalMoves(){
+        int column = position.charAt(0);
+        int row = Integer.parseInt(position.substring(1));
+
+        list.add(String.valueOf((char)(column)) + (row + 1));
+        list.add(String.valueOf((char)(column)) + (row - 1));
+        list.add(String.valueOf((char)(column + 1)) + (row));
+        list.add(String.valueOf((char)(column + 1)) + (row + 1));
+        list.add(String.valueOf((char)(column + 1)) + (row - 1));
+        list.add(String.valueOf((char)(column - 1)) + (row));
+        list.add(String.valueOf((char)(column - 1)) + (row - 1));
+        list.add(String.valueOf((char)(column - 1)) + (row + 1));
+
+    }
+
+    private boolean goesIntoCheck(){
+        return false;
+    }
+
 
 }

@@ -21,6 +21,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.awt.desktop.QuitEvent;
+
 public class Board extends GridPane {
 
     Color first = Color.rgb(133, 94, 66);
@@ -78,16 +80,77 @@ public class Board extends GridPane {
                 }
             }
         }
+
+        for (int column = 1; column <= 8; column++){
+            Pawn bpawn = new Pawn(Color.BLACK);
+            Pawn wpawn = new Pawn(Color.WHITE);
+            Square bSQ = new Square(bpawn);
+            Square wSQ = new Square(wpawn);
+            add(wSQ, column, 7);
+            add(bSQ, column, 2);
+        }
+
+        //Adds Rook pieces to the Chess Board
+        Square sq = new Square(new Rook(Color.BLACK));
+        add(sq, 1, 1);
+        sq = new Square(new Rook(Color.BLACK));
+        add(sq, 8, 1);
+        sq = new Square(new Rook(Color.WHITE));
+        add(sq, 1, 8);
+        sq = new Square(new Rook(Color.WHITE));
+        add(sq, 8, 8);
+
+        //adds the Knights to the Chess Board
+        sq = new Square(new Knight(Color.BLACK));
+        add(sq, 2, 1);
+        sq = new Square(new Knight(Color.BLACK));
+        add(sq, 7, 1);
+        sq = new Square(new Knight(Color.WHITE));
+        add(sq, 2, 8);
+        sq = new Square(new Knight(Color.WHITE));
+        add(sq, 7, 8);
+
+        //adds the Bishops to the Chess Board
+        sq = new Square(new Bishop(Color.BLACK));
+        add(sq, 3, 1);
+        sq = new Square(new Bishop(Color.BLACK));
+        add(sq, 6, 1);
+        sq = new Square(new Bishop(Color.WHITE));
+        add(sq, 3, 8);
+        sq = new Square(new Bishop(Color.WHITE));
+        add(sq, 6, 8);
+
+        //adds the Queens to the Chess Board
+        sq = new Square(new Queen(Color.BLACK));
+        add(sq, 4, 1);
+        sq = new Square(new Queen(Color.WHITE));
+        add(sq, 4, 8);
+
+        //adds the Kings to the Chess Board
+        sq = new Square(new King(Color.BLACK));
+        add(sq, 5, 1);
+        sq = new Square(new King(Color.WHITE));
+        add(sq, 5, 8);
+
+
+
+
+
+
         /*
+        King king = new King();
+        king.setColor(Color.WHITE);
         Rook rook = new Rook();
-        Square sq1 = new Square(rook);
+        Square sq1 = new Square(king);
         add(sq1,1, 2);
         sq1.chessPiece.setPosition("a7");
         sq1.chessPiece.setColor(Color.BLACK);
         System.out.println(sq1.isChessPiece());
         System.out.println(sq1.chessPiece.getPosition());
         System.out.println(sq1.chessPiece.seek());
-        */
+         */
+
+
 
 
         for (int i = 0; i < 8; i++) {

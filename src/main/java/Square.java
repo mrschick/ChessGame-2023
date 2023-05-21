@@ -49,6 +49,15 @@ public class Square extends StackPane {
         square.setFill(color);
     }
 
+    public Color getColor(){
+        if (isChessPiece())
+            return chessPiece.getColor();
+        else
+            return (Color) square.getFill();
+    }
+
+
+
     //Checks if square is a chess piece or a square
     public boolean isChessPiece(){
         if(contains_chess_piece)

@@ -1,8 +1,7 @@
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Pawn implements Piece {
 
@@ -15,26 +14,25 @@ public class Pawn implements Piece {
     private String kill2 = "k2";
     private Color color;
     private int num_moves;
-    private String imageAddress = "C:\\Users\\sharjeel\\ChessGame-2023\\src\\main\\pawn.png";
 
-    public Pawn(){
+    public Pawn(Color color){
         list = new ArrayList<>();
+        this.color = color;
     }
     @Override
     public boolean kill(Square sq) {
-        if ((sq.isChessPiece()) && (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2))))
-            return true;
-        else
-            return false;
+        if ((sq.isChessPiece()) && !(sq.getColor().equals(this.color))){
+            return (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2)));
+        }
+        return false;
     }
 
     @Override
     public boolean move(Square sq) {
         //Checks if the move to square in the met-perimeter is a valid move
-        if (!(sq.isChessPiece()) && (sq.getPosition().equals(move1)) || (sq.getPosition().equals(move2)))
-            return true;
-        else
-            return false;
+        if (!(sq.isChessPiece()))
+            return ((sq.getPosition().equals(move1)) || (sq.getPosition().equals(move2)));
+        return false;
     }
 
     @Override
@@ -62,7 +60,18 @@ public class Pawn implements Piece {
 
     @Override
     public Color getColor() {return color;}
-    public String getImageAddress(){return imageAddress;}
+    public String getImageAddress(){
+        File path = null;
+        try {
+            if (color.equals(Color.BLACK)) {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bPawn.png");
+            } else {
+                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wPawn.png");
+            }
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+        return path.getAbsolutePath();}
 
     public void incrementNumMoves(){
         num_moves++;
@@ -71,7 +80,7 @@ public class Pawn implements Piece {
         return num_moves;
     }
 
-    //submethod to check all possible moves for pawn under idead situations
+    //sub method to check all possible moves for pawn under ideal situations
     private void allLegalMoves(){
         int row = Integer.parseInt(position.substring(1));
         System.out.println(row);
