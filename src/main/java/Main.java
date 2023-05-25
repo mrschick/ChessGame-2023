@@ -52,7 +52,13 @@ public class Main extends Application {
             menuHandler.handleKingAction(event);
         });
 
-        menu.getItems().addAll(menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6, menuItem7);
+        MenuItem menuItem8 = new MenuItem("Exit");
+        menuItem8.setOnAction(event -> {
+            MenuHandler menuHandler = new MenuHandler();
+            menuHandler.handleExit1(event);
+        });
+
+        menu.getItems().addAll(menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, menuItem6, menuItem7, menuItem8);
         menuBar.getMenus().add(menu);
 
         BorderPane borderPane = new BorderPane(board, menuBar, null, null, null);

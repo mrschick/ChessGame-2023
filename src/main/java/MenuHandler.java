@@ -1,5 +1,8 @@
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class MenuHandler {
 
@@ -58,6 +61,17 @@ public class MenuHandler {
                 "The king is the most important chess piece. Remember, the goal of a game of chess is to checkmate the king!"
                         + "The king is not a very powerful piece, as it can only move (or capture) one square in any direction.");
         alert.showAndWait();
+    }
+
+    public void handleExit1(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Do you want to exit the game?");
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                Platform.exit();
+            }
+        });
     }
 
     public void handleExitAction(ActionEvent event) {
