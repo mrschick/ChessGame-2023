@@ -3,7 +3,6 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.util.ArrayList;
 
-
 public class Bishop implements Piece {
 
     private String position = "";
@@ -61,9 +60,9 @@ public class Bishop implements Piece {
         File path = null;
         try {
             if (color.equals(Color.BLACK)) {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bBishop.png");
+                path = new File("src/main/resources/black_pieces/bishop.png");
             } else {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wBishop.png");
+                path = new File("src/main/resources/white_pieces/bishop.png");
             }
         } catch (NullPointerException n) {
             n.printStackTrace();

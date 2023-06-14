@@ -61,9 +61,9 @@ public class Knight implements Piece {
         File path = null;
         try {
             if (color.equals(Color.BLACK)) {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bKnight.png");
+                path = new File("src/main/resources/black_pieces/knight.png");
             } else {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wKnight.png");
+                path = new File("src/main/resources/white_pieces/knight.png");
             }
         } catch (NullPointerException n) {
             n.printStackTrace();

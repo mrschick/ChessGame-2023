@@ -64,9 +64,9 @@ public class Pawn implements Piece {
         File path = null;
         try {
             if (color.equals(Color.BLACK)) {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bPawn.png");
+                path = new File("src/main/resources/black_pieces/pawn.png");
             } else {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wPawn.png");
+                path = new File("src/main/resources/white_pieces/pawn.png");
             }
         } catch (NullPointerException n) {
             n.printStackTrace();

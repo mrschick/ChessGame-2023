@@ -60,9 +60,9 @@ public class King implements Piece {
         File path = null;
         try {
             if (color.equals(Color.BLACK)) {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\black_pieces\\bKing.png");
+                path = new File("src/main/resources/black_pieces/king.png");
             } else {
-                path = new File(System.getProperty("user.dir") + "\\src\\main\\white_pieces\\wKing.png");
+                path = new File("src/main/resources/white_pieces/king.png");
             }
         } catch (NullPointerException n) {
             n.printStackTrace();
