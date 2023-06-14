@@ -68,7 +68,7 @@ public class Knight implements Piece {
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
-        return path.getAbsolutePath();
+        return path.toURI().toString();
     }
 
     //Adds hypothetical and real chess board addresses to list used in kill,move and seek methods.

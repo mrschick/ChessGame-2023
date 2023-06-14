@@ -71,7 +71,7 @@ public class Pawn implements Piece {
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
-        return path.getAbsolutePath();}
+        return path.toURI().toString();}
 
     public void incrementNumMoves(){
         num_moves++;

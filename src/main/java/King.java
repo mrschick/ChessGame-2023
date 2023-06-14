@@ -67,7 +67,7 @@ public class King implements Piece {
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
-        return path.getAbsolutePath();
+        return path.toURI().toString();
     }
 
     private void allLegalMoves(){

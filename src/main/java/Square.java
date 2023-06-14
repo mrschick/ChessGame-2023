@@ -26,7 +26,7 @@ public class Square extends StackPane {
         square.setStroke(Color.BLACK);
     }
 
-    //Constructor to use Squaer object as a chess piece.
+    //Constructor to use Square object as a chess piece.
     public <T extends Piece> Square(T chessPiece) {
         this.chessPiece = chessPiece;
         contains_chess_piece = true;
