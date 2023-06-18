@@ -4,6 +4,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -26,7 +27,7 @@ public class Main extends Application {
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
         });
-        Board board = new Board();
+        Board board = new Board(Color.rgb(133, 94, 66), Color.rgb(222, 184, 135), Color.rgb(196, 180, 163));
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
         gameInfo.setPadding(new Insets(30, 20, 30, 20));
         gameInfo.setVgap(10);

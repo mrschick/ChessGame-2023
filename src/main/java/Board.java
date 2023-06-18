@@ -21,20 +21,21 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.awt.desktop.QuitEvent;
-
 public class Board extends GridPane {
 
-    Color first = Color.rgb(133, 94, 66);
-    Color second = Color.rgb(222, 184, 135);
-    Color black = Color.BLACK;
+    Color dark;
+    Color light;
+    Color background;
 
     private Text timerText;
     private Timeline timeline;
     private int remainingTime = 10;
 
-    public Board() {
-        setBackground(new Background(new BackgroundFill(Color.rgb(222, 184, 135), CornerRadii.EMPTY, Insets.EMPTY)));
+    public Board(Color dark, Color light, Color bg) {
+        this.dark = dark;
+        this.light = light;
+        this.background = bg;
+        setBackground(new Background(new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY)));
 
         // this code adds a Start Button
         Button startButton = new Button("Start");
@@ -50,7 +51,7 @@ public class Board extends GridPane {
         // this code adds a timer text, in the corner of the Chessboard.
         timerText = new Text("00:10");
         timerText.setFont(Font.font("Helvetica", FontWeight.BOLD, 30));
-        timerText.setFill(black);
+        timerText.setFill(Color.BLACK);
         add(timerText, 8, 9);
         setHalignment(timerText, HPos.CENTER);
         setValignment(timerText, VPos.CENTER);
@@ -64,18 +65,18 @@ public class Board extends GridPane {
                     sq.setPosition(String.valueOf(position_char) + postion_number);
 
                     if (j % 2 == 0)
-                        sq.setColor(first);
+                        sq.setColor(dark);
                     else
-                        sq.setColor(second);
+                        sq.setColor(light);
                     add(sq, j + 1, i + 1);
                 } else {
                     Square sq = new Square();
                     sq.setPosition(String.valueOf(position_char) + postion_number);
 
                     if (j % 2 == 0)
-                        sq.setColor(second);
+                        sq.setColor(light);
                     else
-                        sq.setColor(first);
+                        sq.setColor(dark);
                     add(sq, j + 1, i + 1);
                 }
             }
@@ -135,7 +136,7 @@ public class Board extends GridPane {
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));
             text.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
-            text.setFill(black);
+            text.setFill(Color.BLACK);
             add(text, i + 1, 0);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
@@ -144,7 +145,7 @@ public class Board extends GridPane {
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Integer.toString(8 - i));
             text.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
-            text.setFill(black);
+            text.setFill(Color.BLACK);
             add(text, 0, i + 1);
             setHalignment(text, HPos.CENTER);
             setValignment(text, VPos.CENTER);
