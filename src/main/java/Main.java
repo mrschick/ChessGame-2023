@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
@@ -12,14 +13,32 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         // Menu scene setup, with short explanation of the game and settings.
         FlowPane menuPane = new FlowPane(Orientation.VERTICAL);
+        menuPane.setAlignment(Pos.TOP_CENTER);
         Scene menuScene = new Scene(menuPane, 1150, 700);
-        Label menutxt = new Label("This is a chess game\n"
-                            +"\n"
+        Label menutxt = new Label("This is a 2D Chess Game.\n\n"
+                            +"It has been created \n"
                             +"\n"
                             +"\n"
                             +"\n");
+
+        int activeScheme = 0;
+        ColorScheme[] schemes = new ColorScheme[3];
+        schemes[0] = new ColorScheme(
+                Color.rgb(133, 94, 66),
+                Color.rgb(222, 184, 135),
+                Color.rgb(189, 168, 145),
+                Color.rgb(200, 200, 200)
+        );
+        //schemes[0].setOnMouseClicked(evt -> {  });
+        /*schemes[1] = new ColorScheme();
+        schemes[2] = new ColorScheme();*/
+        FlowPane colorSchemes = new FlowPane();
+        colorSchemes.getChildren().addAll(schemes[0]);
+
         Button start = new Button("Start Game");
-        menuPane.getChildren().addAll(menutxt, start);
+
+        menuPane.getChildren().addAll(menutxt, colorSchemes, /*time,*/ start);
+
 
         // Game scene setup, with chessboard and current game info.
         FlowPane gamePane = new FlowPane();
@@ -27,7 +46,8 @@ public class Main extends Application {
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
         });
-        Board board = new Board(Color.rgb(133, 94, 66), Color.rgb(222, 184, 135), Color.rgb(196, 180, 163));
+        gameScene.setFill(schemes[activeScheme].windowBg); // -------------- NOT WORKING YET, INVESTIGATE
+        Board board = new Board(schemes[activeScheme]);
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
         gameInfo.setPadding(new Insets(30, 20, 30, 20));
         gameInfo.setVgap(10);
@@ -56,6 +76,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void highlightColorScheme(int activeIdx) {
+        //
     }
 
 }

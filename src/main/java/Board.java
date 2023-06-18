@@ -1,4 +1,3 @@
-
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
@@ -31,10 +30,10 @@ public class Board extends GridPane {
     private Timeline timeline;
     private int remainingTime = 10;
 
-    public Board(Color dark, Color light, Color bg) {
-        this.dark = dark;
-        this.light = light;
-        this.background = bg;
+    public Board(ColorScheme colorScheme) {
+        this.dark = colorScheme.dark;
+        this.light = colorScheme.light;
+        this.background = colorScheme.boardBg;
         setBackground(new Background(new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY)));
 
         // this code adds a Start Button
