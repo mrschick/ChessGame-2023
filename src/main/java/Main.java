@@ -4,6 +4,9 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -45,8 +48,13 @@ public class Main extends Application {
         Scene gameScene = new Scene(gamePane, 1150, 700);
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
+            gameScene.setFill(schemes[activeScheme].windowBg);
+            gamePane.setBackground(new Background(new BackgroundFill(
+                    schemes[activeScheme].windowBg,
+                    new CornerRadii(10),
+                    new Insets(10)
+            )));
         });
-        gameScene.setFill(schemes[activeScheme].windowBg); // -------------- NOT WORKING YET, INVESTIGATE
         Board board = new Board(schemes[activeScheme]);
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
         gameInfo.setPadding(new Insets(30, 20, 30, 20));
