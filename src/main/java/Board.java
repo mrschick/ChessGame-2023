@@ -37,10 +37,11 @@ public class Board extends GridPane {
     private Timeline timeline;
     private int remainingTime = 10;
 
-    public Board(ColorScheme colorScheme) {
-        this.dark = colorScheme.dark;
-        this.light = colorScheme.light;
-        this.background = colorScheme.boardBg;
+    public Board(ColorSchemes colorScheme) {
+        this.dark = colorScheme.activeDark();
+        this.light = colorScheme.activeLight();
+        System.out.println("Dark: "+this.dark.toString()+"\nLight: "+this.light.toString());
+        this.background = colorScheme.activeBoardBG();
         setBackground(new Background(new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY)));
 
         // this code adds a Start Button

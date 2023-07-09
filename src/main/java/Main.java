@@ -8,7 +8,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,30 +16,26 @@ public class Main extends Application {
         // Menu scene setup, with short explanation of the game and settings.
         FlowPane menuPane = new FlowPane(Orientation.VERTICAL);
         menuPane.setAlignment(Pos.TOP_CENTER);
+        menuPane.setVgap(10);
         Scene menuScene = new Scene(menuPane, 1150, 700);
         Label menutxt = new Label("This is a 2D Chess Game.\n\n"
-                            +"It has been created \n"
                             +"\n"
                             +"\n"
-                            +"\n");
+                            +"\n"
+                            +"To play, simply choose your preferred Color Scheme and time limit below and then hit 'Start Game':\n\n");
 
         int activeScheme = 0;
-        ColorScheme[] schemes = new ColorScheme[3];
-        schemes[0] = new ColorScheme(
-                Color.rgb(133, 94, 66),
-                Color.rgb(222, 184, 135),
-                Color.rgb(189, 168, 145),
-                Color.rgb(200, 200, 200)
-        );
-        //schemes[0].setOnMouseClicked(evt -> {  });
-        /*schemes[1] = new ColorScheme();
-        schemes[2] = new ColorScheme();*/
+        ColorSchemes schemes = new ColorSchemes();
         FlowPane colorSchemes = new FlowPane();
-        colorSchemes.getChildren().addAll(schemes[0]);
+        colorSchemes.getChildren().addAll(schemes);
+
+        FlowPane setting1 = new FlowPane();
+        TextField setting1_tf = new TextField("1");
+        setting1.getChildren().addAll(new Label("Chosen color scheme: "), setting1_tf);
 
         Button start = new Button("Start Game");
 
-        menuPane.getChildren().addAll(menutxt, colorSchemes, /*time,*/ start);
+        menuPane.getChildren().addAll(menutxt, colorSchemes, /*time,*/ setting1, /*setting2,*/ start);
 
 
         // Game scene setup, with chessboard and current game info.
@@ -48,14 +43,21 @@ public class Main extends Application {
         Scene gameScene = new Scene(gamePane, 1150, 700);
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
-            gameScene.setFill(schemes[activeScheme].windowBg);
+            try {
+                schemes.activeIdx = Integer.parseInt(setting1_tf.getText()) - 1;
+                System.out.println("Selected scheme: "+schemes.activeIdx);
+            } catch (NumberFormatException e) {
+                schemes.activeIdx = 0;
+                System.out.println("Unable to parse '"+setting1_tf.getText()+"' to integer");
+            }
+            gameScene.setFill(schemes.activeWindowBG());
             gamePane.setBackground(new Background(new BackgroundFill(
-                    schemes[activeScheme].windowBg,
+                    schemes.activeWindowBG(),
                     new CornerRadii(10),
                     new Insets(10)
             )));
         });
-        Board board = new Board(schemes[activeScheme]);
+        Board board = new Board(schemes);
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
         gameInfo.setPadding(new Insets(30, 20, 30, 20));
         gameInfo.setVgap(10);
@@ -84,10 +86,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    private void highlightColorScheme(int activeIdx) {
-        //
     }
 
 }
