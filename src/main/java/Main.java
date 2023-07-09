@@ -63,14 +63,14 @@ public class Main extends Application {
         FlowPane wPlayerInfo = new FlowPane();
         wPlayerInfo.setVgap(10);
         wPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
-        wPlayerInfo.setStyle("-fx-border-color: white");
+        wPlayerInfo.setStyle("-fx-border-color: white;");
         Label wInfo = new Label("White player:\n\n");
         wPlayerInfo.getChildren().addAll(wInfo);
 
         FlowPane bPlayerInfo = new FlowPane();
         bPlayerInfo.setVgap(10);
         bPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
-        wPlayerInfo.setStyle("-fx-border-color: black");
+        bPlayerInfo.setStyle("-fx-border-color: black;");
         Label bInfo = new Label("Black Player:\n\n");
         bPlayerInfo.getChildren().addAll(bInfo);
 
