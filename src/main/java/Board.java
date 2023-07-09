@@ -25,6 +25,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import javax.swing.plaf.ColorUIResource;
 import java.util.List;
 
 public class Board extends GridPane {
@@ -66,72 +67,134 @@ public class Board extends GridPane {
             Pawn bpawn = new Pawn(Color.BLACK);
             Pawn wpawn = new Pawn(Color.WHITE);
             Square bSQ = new Square(bpawn);
-            bSQ.setPosition(String.valueOf((char) (column + 97)) + 2);
+            bSQ.setPosition(String.valueOf((char) (column + 97)) + 7);
             System.out.println(bSQ.getPosition());
-            bSQ.setOnMouseClicked(evt->seekEventListener(evt, bpawn));
+            bSQ.setOnMouseEntered(e->seekEventListener(e, bpawn));
+            bSQ.setOnMouseExited(e -> resetSeekEventListener(e, bpawn));
             Square wSQ = new Square(wpawn);
-            wSQ.setPosition(String.valueOf((char) (column + 97)) + 7);
+            wSQ.setOnMouseEntered(e-> seekEventListener(e, wpawn));
+            wSQ.setOnMouseExited(e -> resetSeekEventListener(e, wpawn));
+            wSQ.setPosition(String.valueOf((char) (column + 97)) + 2);
             add(wSQ, column + 1, 7);
             add(bSQ, column + 1, 2);
         }
 
         //Adds Rook pieces to the Chess Board
-        Square sq = new Square(new Rook(Color.BLACK));
-        sq.setPosition(String.valueOf((char) 97) +  8);
+        Rook bRook1 = new Rook(Color.BLACK);
+        Square sq = new Square(bRook1);
+        sq.setPosition("a" +  8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bRook1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bRook1));
         add(sq, 1, 1);
-        sq = new Square(new Rook(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (104)) + 8);
+
+        Rook bRook2 = new Rook(Color.BLACK);
+        sq = new Square(bRook2);
+        sq.setPosition("h" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bRook2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bRook2));
         add(sq, 8, 1);
-        sq = new Square(new Rook(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (97)) + 1);
+
+        Rook wRook1 = new Rook(Color.WHITE);
+        sq = new Square(wRook1);
+        sq.setPosition("a" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wRook1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wRook1));
         add(sq, 1, 8);
-        sq = new Square(new Rook(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (104)) + 8);
+
+        Rook wRook2 = new Rook(Color.WHITE);
+        sq = new Square(wRook2);
+        sq.setPosition("h" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wRook2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wRook2));
         add(sq, 8, 8);
 
         //adds the Knights to the Chess Board
-        sq = new Square(new Knight(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (98)) + 8);
+        Knight bKnight1 = new Knight(Color.BLACK);
+        sq = new Square(bKnight1);
+        sq.setPosition("b" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bKnight1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bKnight1));
         add(sq, 2, 1);
-        sq = new Square(new Knight(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (103)) + 8);
+
+        Knight bKnight2 = new Knight(Color.BLACK);
+        sq = new Square(bKnight2);
+        sq.setPosition("g" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bKnight2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bKnight2));
         add(sq, 7, 1);
-        sq = new Square(new Knight(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (98)) + 1);
+
+        Knight wKnight1 = new Knight(Color.WHITE);
+        sq = new Square(wKnight1);
+        sq.setPosition("b" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wKnight1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wKnight1));
         add(sq, 2, 8);
-        sq = new Square(new Knight(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (103)) + 1);
+
+        Knight wKnight2 = new Knight(Color.WHITE);
+        sq = new Square(wKnight2);
+        sq.setPosition("g" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wKnight2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wKnight2));
         add(sq, 7, 8);
 
         //adds the Bishops to the Chess Board
-        sq = new Square(new Bishop(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (99)) + 8);
+        Bishop bBishop1 = new Bishop(Color.BLACK);
+        sq = new Square(bBishop1);
+        sq.setPosition("c" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bBishop1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bBishop1));
         add(sq, 3, 1);
-        sq = new Square(new Bishop(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (102)) + 8);
+
+        Bishop bBishop2 = new Bishop(Color.BLACK);
+        sq = new Square(bBishop2);
+        sq.setPosition("f" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bBishop2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bBishop2));
         add(sq, 6, 1);
-        sq = new Square(new Bishop(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (99)) + 1);
+
+        Bishop wBishop1 = new Bishop(Color.WHITE);
+        sq = new Square(wBishop1);
+        sq.setPosition("c" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wBishop1));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wBishop1));
         add(sq, 3, 8);
-        sq = new Square(new Bishop(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (102)) + 1);
+
+        Bishop wBishop2 = new Bishop(Color.WHITE);
+        sq = new Square(wBishop2);
+        sq.setPosition("f" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wBishop2));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wBishop2));
         add(sq, 6, 8);
 
         //adds the Queens to the Chess Board
-        sq = new Square(new Queen(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (100)) + 8);
+        Queen bQueen = new Queen(Color.BLACK);
+        sq = new Square(bQueen);
+        sq.setPosition("d" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bQueen));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bQueen));
         add(sq, 4, 1);
-        sq = new Square(new Queen(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (101)) + 1);
-        add(sq, 4, 8);
+
+        Queen wQueen = new Queen(Color.WHITE);
+        sq = new Square(wQueen);
+        sq.setPosition("e" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wQueen));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wQueen));
+        add(sq, 5, 8);
 
         //adds the Kings to the Chess Board
-        sq = new Square(new King(Color.BLACK));
-        sq.setPosition(String.valueOf((char) (101)) + 8);
+        King bKing = new King(Color.BLACK);
+        sq = new Square(bKing);
+        sq.setPosition("e" + 8);
+        sq.setOnMouseEntered(e->seekEventListener(e, bKing));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, bKing));
         add(sq, 5, 1);
-        sq = new Square(new King(Color.WHITE));
-        sq.setPosition(String.valueOf((char) (100)) + 1);
-        add(sq, 5, 8);
+
+        King wKing = new King(Color.WHITE);
+        sq = new Square(wKing);
+        sq.setPosition("d" + 1);
+        sq.setOnMouseEntered(e->seekEventListener(e, wKing));
+        sq.setOnMouseExited(e -> resetSeekEventListener(e, wKing));
+        add(sq, 4, 8);
 
         int postion_number = 6;
         for (int i = 2; i < 6; i++) {
@@ -223,21 +286,20 @@ public class Board extends GridPane {
     }
 
     private void seekEventListener(MouseEvent event, Piece chessPiece) {
-
         List<Node> nodes = getChildren();
-
         for (Node node: nodes){
-            if (node instanceof Square && ((Square) node).isChessPiece() /*&& (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )*/) {
-                System.out.println("event");
-                int i = GridPane.getRowIndex(node);
-                int j = GridPane.getColumnIndex(node);
-                ((Square) node).setStroke();
-                getChildren().remove(i, j);
-                ((Square) node).setColor(Color.BLACK);
-                add(node, i ,j);
+            if (node instanceof Square && (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )){
+                ((Square) node).setStroke(Color.YELLOW);
             }
         }
-        getChildren().remove(1, 2);
+    }
 
+    private void resetSeekEventListener(MouseEvent event, Piece chessPiece){
+        List<Node> nodes = getChildren();
+        for (Node node: nodes){
+            if (node instanceof Square && (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )) {
+                ((Square) node).setStroke(Color.BLACK);
+            }
+        }
     }
 }

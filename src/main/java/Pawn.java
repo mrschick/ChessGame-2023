@@ -21,8 +21,10 @@ public class Pawn implements Piece {
     }
     @Override
     public boolean kill(Square sq) {
+        allLegalKills();
         if ((sq.isChessPiece()) && !(sq.getColor().equals(this.color))){
-            return (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2)));
+            if (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2)))
+                return true;
         }
         return false;
     }
@@ -30,8 +32,11 @@ public class Pawn implements Piece {
     @Override
     public boolean move(Square sq) {
         //Checks if the move to square in the met-perimeter is a valid move
-        if (!(sq.isChessPiece()))
-            return ((sq.getPosition().equals(move1)) || (sq.getPosition().equals(move2)));
+        allLegalMoves();
+        if (!(sq.isChessPiece())) {
+            if ((sq.getPosition().equals(move1)) || (sq.getPosition().equals(move2)))
+                return true;
+        }
         return false;
     }
 
@@ -49,8 +54,6 @@ public class Pawn implements Piece {
     @Override
     public void setPosition(String pos) {
         position = pos;
-        System.out.println(position);
-        System.out.println(pos);
     }
 
     @Override
@@ -83,7 +86,6 @@ public class Pawn implements Piece {
     //sub method to check all possible moves for pawn under ideal situations
     private void allLegalMoves(){
         int row = Integer.parseInt(position.substring(1));
-        System.out.println(row);
 
         //Checks available moves for Black pawns
         if (color.equals(Color.BLACK)){

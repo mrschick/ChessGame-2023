@@ -16,7 +16,7 @@ public class Rook implements Piece {
     @Override
     public boolean kill(Square sq) {
         allLegalMoves();
-        if (sq.isChessPiece()){
+        if (sq.isChessPiece()  && !(sq.getColor().equals(this.color))){
             for (String s : list) {
                 if (s.equals(sq.getPosition()))
                     return true;
@@ -28,7 +28,7 @@ public class Rook implements Piece {
     @Override
     public boolean move(Square sq) {
         allLegalMoves();
-        if (!(sq.isChessPiece()) && !(sq.getColor().equals(this.color))){
+        if (!(sq.isChessPiece())){
             for (String s : list) {
                 if (s.equals(sq.getPosition()))
                     return true;

@@ -46,6 +46,9 @@ public class Square extends StackPane {
 
     public void setPosition(String pos) {
         this.position = pos;
+        if (isChessPiece()){
+            chessPiece.setPosition(pos);
+        }
     }
 
     public void setColor(Paint color) {
@@ -67,8 +70,8 @@ public class Square extends StackPane {
             return false;
     }
 
-    public void setStroke() {
-        square.setStroke(Color.YELLOW);
+    public void setStroke(Color color) {
+        square.setStroke(color);
         getChildren().remove(0);
         getChildren().add(0, square);
     }
