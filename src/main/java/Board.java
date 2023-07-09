@@ -1,5 +1,10 @@
+
+import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,6 +24,8 @@ import javafx.event.EventHandler;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.util.List;
 
 public class Board extends GridPane {
 
@@ -55,13 +62,85 @@ public class Board extends GridPane {
         setHalignment(timerText, HPos.CENTER);
         setValignment(timerText, VPos.CENTER);
 
-        for (int i = 0; i < 8; i++) {
-            int postion_number = 8;
+        for (int column = 0; column < 8; column++){
+            Pawn bpawn = new Pawn(Color.BLACK);
+            Pawn wpawn = new Pawn(Color.WHITE);
+            Square bSQ = new Square(bpawn);
+            bSQ.setPosition(String.valueOf((char) (column + 97)) + 2);
+            System.out.println(bSQ.getPosition());
+            bSQ.setOnMouseClicked(evt->seekEventListener(evt, bpawn));
+            Square wSQ = new Square(wpawn);
+            wSQ.setPosition(String.valueOf((char) (column + 97)) + 7);
+            add(wSQ, column + 1, 7);
+            add(bSQ, column + 1, 2);
+        }
+
+        //Adds Rook pieces to the Chess Board
+        Square sq = new Square(new Rook(Color.BLACK));
+        sq.setPosition(String.valueOf((char) 97) +  8);
+        add(sq, 1, 1);
+        sq = new Square(new Rook(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (104)) + 8);
+        add(sq, 8, 1);
+        sq = new Square(new Rook(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (97)) + 1);
+        add(sq, 1, 8);
+        sq = new Square(new Rook(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (104)) + 8);
+        add(sq, 8, 8);
+
+        //adds the Knights to the Chess Board
+        sq = new Square(new Knight(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (98)) + 8);
+        add(sq, 2, 1);
+        sq = new Square(new Knight(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (103)) + 8);
+        add(sq, 7, 1);
+        sq = new Square(new Knight(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (98)) + 1);
+        add(sq, 2, 8);
+        sq = new Square(new Knight(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (103)) + 1);
+        add(sq, 7, 8);
+
+        //adds the Bishops to the Chess Board
+        sq = new Square(new Bishop(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (99)) + 8);
+        add(sq, 3, 1);
+        sq = new Square(new Bishop(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (102)) + 8);
+        add(sq, 6, 1);
+        sq = new Square(new Bishop(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (99)) + 1);
+        add(sq, 3, 8);
+        sq = new Square(new Bishop(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (102)) + 1);
+        add(sq, 6, 8);
+
+        //adds the Queens to the Chess Board
+        sq = new Square(new Queen(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (100)) + 8);
+        add(sq, 4, 1);
+        sq = new Square(new Queen(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (101)) + 1);
+        add(sq, 4, 8);
+
+        //adds the Kings to the Chess Board
+        sq = new Square(new King(Color.BLACK));
+        sq.setPosition(String.valueOf((char) (101)) + 8);
+        add(sq, 5, 1);
+        sq = new Square(new King(Color.WHITE));
+        sq.setPosition(String.valueOf((char) (100)) + 1);
+        add(sq, 5, 8);
+
+        int postion_number = 6;
+        for (int i = 2; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
                 char position_char = (char) (j + 97);
                 if (i % 2 != 0) {
-                    Square sq = new Square();
+                    sq = new Square();
                     sq.setPosition(String.valueOf(position_char) + postion_number);
+                    System.out.println(sq.getPosition());
 
                     if (j % 2 == 0)
                         sq.setColor(dark);
@@ -69,8 +148,9 @@ public class Board extends GridPane {
                         sq.setColor(light);
                     add(sq, j + 1, i + 1);
                 } else {
-                    Square sq = new Square();
+                    sq = new Square();
                     sq.setPosition(String.valueOf(position_char) + postion_number);
+                    System.out.println(sq.getPosition());
 
                     if (j % 2 == 0)
                         sq.setColor(light);
@@ -79,58 +159,9 @@ public class Board extends GridPane {
                     add(sq, j + 1, i + 1);
                 }
             }
+            postion_number--;
         }
 
-        for (int column = 1; column <= 8; column++){
-            Pawn bpawn = new Pawn(Color.BLACK);
-            Pawn wpawn = new Pawn(Color.WHITE);
-            Square bSQ = new Square(bpawn);
-            Square wSQ = new Square(wpawn);
-            add(wSQ, column, 7);
-            add(bSQ, column, 2);
-        }
-
-        //Adds Rook pieces to the Chess Board
-        Square sq = new Square(new Rook(Color.BLACK));
-        add(sq, 1, 1);
-        sq = new Square(new Rook(Color.BLACK));
-        add(sq, 8, 1);
-        sq = new Square(new Rook(Color.WHITE));
-        add(sq, 1, 8);
-        sq = new Square(new Rook(Color.WHITE));
-        add(sq, 8, 8);
-
-        //adds the Knights to the Chess Board
-        sq = new Square(new Knight(Color.BLACK));
-        add(sq, 2, 1);
-        sq = new Square(new Knight(Color.BLACK));
-        add(sq, 7, 1);
-        sq = new Square(new Knight(Color.WHITE));
-        add(sq, 2, 8);
-        sq = new Square(new Knight(Color.WHITE));
-        add(sq, 7, 8);
-
-        //adds the Bishops to the Chess Board
-        sq = new Square(new Bishop(Color.BLACK));
-        add(sq, 3, 1);
-        sq = new Square(new Bishop(Color.BLACK));
-        add(sq, 6, 1);
-        sq = new Square(new Bishop(Color.WHITE));
-        add(sq, 3, 8);
-        sq = new Square(new Bishop(Color.WHITE));
-        add(sq, 6, 8);
-
-        //adds the Queens to the Chess Board
-        sq = new Square(new Queen(Color.BLACK));
-        add(sq, 4, 1);
-        sq = new Square(new Queen(Color.WHITE));
-        add(sq, 4, 8);
-
-        //adds the Kings to the Chess Board
-        sq = new Square(new King(Color.BLACK));
-        add(sq, 5, 1);
-        sq = new Square(new King(Color.WHITE));
-        add(sq, 5, 8);
 
         for (int i = 0; i < 8; i++) {
             Text text = new Text(Character.toString((char) ('a' + i)));
@@ -150,6 +181,7 @@ public class Board extends GridPane {
             setValignment(text, VPos.CENTER);
         }
     }
+
 
     // this code decrements the Remaining time every second.
     private void startTimer() {
@@ -188,5 +220,24 @@ public class Board extends GridPane {
         int minutes = remainingTime / 60;
         int seconds = remainingTime % 60;
         timerText.setText(String.format("%d:%02d", minutes, seconds));
+    }
+
+    private void seekEventListener(MouseEvent event, Piece chessPiece) {
+
+        List<Node> nodes = getChildren();
+
+        for (Node node: nodes){
+            if (node instanceof Square && ((Square) node).isChessPiece() /*&& (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )*/) {
+                System.out.println("event");
+                int i = GridPane.getRowIndex(node);
+                int j = GridPane.getColumnIndex(node);
+                ((Square) node).setStroke();
+                getChildren().remove(i, j);
+                ((Square) node).setColor(Color.BLACK);
+                add(node, i ,j);
+            }
+        }
+        getChildren().remove(1, 2);
+
     }
 }

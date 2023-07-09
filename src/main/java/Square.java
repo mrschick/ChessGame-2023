@@ -28,6 +28,9 @@ public class Square extends StackPane {
 
     //Constructor to use Square object as a chess piece.
     public <T extends Piece> Square(T chessPiece) {
+        square.setFill(Color.GREEN);
+        square.setStroke(Color.BLACK);
+        getChildren().add(square);
         this.chessPiece = chessPiece;
         contains_chess_piece = true;
         Image img = new Image(this.chessPiece.getImageAddress());
@@ -56,8 +59,6 @@ public class Square extends StackPane {
             return (Color) square.getFill();
     }
 
-
-
     //Checks if square is a chess piece or a square
     public boolean isChessPiece(){
         if(contains_chess_piece)
@@ -66,4 +67,9 @@ public class Square extends StackPane {
             return false;
     }
 
+    public void setStroke() {
+        square.setStroke(Color.YELLOW);
+        getChildren().remove(0);
+        getChildren().add(0, square);
+    }
 }
