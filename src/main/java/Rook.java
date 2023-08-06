@@ -68,6 +68,7 @@ public class Rook implements Piece {
     }
 
     private void allLegalMoves(){
+        list = new ArrayList<>();
         int row = Integer.parseInt(position.substring(1));
         int column = position.charAt(0);
 

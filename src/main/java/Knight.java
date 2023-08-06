@@ -75,6 +75,7 @@ public class Knight implements Piece {
     //These addresses follow similar notation as a chess board address.Considering the moving pattern of a
     //chess piece, these are calculated in all four directions from the current position of the chess piece.
     private void allLegalMoves() {
+        list = new ArrayList<>();
         int row = Integer.parseInt(position.substring(1));
         int column = position.charAt(0);
 

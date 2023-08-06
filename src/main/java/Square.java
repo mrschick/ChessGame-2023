@@ -5,12 +5,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 //import java.util.Stack;
 
 public class Square extends StackPane {
@@ -18,7 +12,8 @@ public class Square extends StackPane {
     String position;
     Rectangle square = new Rectangle(75, 75);
     private boolean contains_chess_piece = false;
-    public Piece chessPiece = null;
+    private Piece chessPiece = null;
+    private Image img;
 
     //Constructor to use Square object as a chess square.
     public Square() {
@@ -33,7 +28,7 @@ public class Square extends StackPane {
         getChildren().add(square);
         this.chessPiece = chessPiece;
         contains_chess_piece = true;
-        Image img = new Image(this.chessPiece.getImageAddress());
+        img = new Image(this.chessPiece.getImageAddress());
         ImageView image = new ImageView();
         image.setImage(img);
         getChildren().add(image);
@@ -72,7 +67,44 @@ public class Square extends StackPane {
 
     public void setStroke(Color color) {
         square.setStroke(color);
-        getChildren().remove(0);
-        getChildren().add(0, square);
+    }
+
+    public <T extends Piece> void replacePiece(T chessPiece){
+        this.chessPiece = chessPiece;
+        this.chessPiece.setPosition(getPosition());
+        this.img = new Image(chessPiece.getImageAddress());
+        ImageView image = new ImageView();
+        image.setImage(img);
+        getChildren().remove(1);
+        getChildren().add(image);
+
+    }
+
+    public void removePiece(){
+        this.chessPiece = null;
+        contains_chess_piece = false;
+        getChildren().remove(1);
+    }
+
+    public <T extends Piece>void addPiece(T chessPiece){
+        setPiece(chessPiece);
+        chessPiece.setPosition(position);
+        contains_chess_piece = true;
+        img = new Image(this.chessPiece.getImageAddress());
+        ImageView image = new ImageView();
+        image.setImage(img);
+        getChildren().add(image);
+    }
+
+    public Piece getPiece(){
+        return chessPiece;
+    }
+
+    public <T extends  Piece> void setPiece(T chessPiece) {
+        this.chessPiece = chessPiece;
+    }
+
+    public void setContains_chess_piece(boolean f){
+        contains_chess_piece = f;
     }
 }

@@ -71,6 +71,7 @@ public class Bishop implements Piece {
     }
 
     private void allLegalMoves(){
+        list = new ArrayList<>();
         int column = position.charAt(0);
         int row = Integer.parseInt(position.substring(1));
 
