@@ -68,6 +68,7 @@ public class Square extends StackPane {
     public void setStroke(Color color) {
         square.setStroke(color);
     }
+    public Color getStroke(){return (Color) square.getStroke();}
 
     public <T extends Piece> void replacePiece(T chessPiece){
         this.chessPiece = chessPiece;

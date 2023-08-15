@@ -1,9 +1,6 @@
 
-import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,10 +22,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import javax.swing.plaf.ColorUIResource;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
 
 public class Board extends GridPane {
 
@@ -40,8 +33,9 @@ public class Board extends GridPane {
     private Timeline timeline;
     private int remainingTime = 10;
     private Square clickedSqaure = null;
-    private int clickCount = 0;
+    private int clickCount = 0, row_num = 0, column_num = 0;
     private Square[][] Squares = new Square[8][8];
+    private Color p_move = Color.YELLOW, p_kill = Color.GREEN, p_check = Color.RED;
 
     public Board(ColorScheme colorScheme) {
         this.dark = colorScheme.dark;
@@ -91,8 +85,6 @@ public class Board extends GridPane {
             }
             Squares[6][column] = wSQ;
             Squares[1][column] = bSQ;
-            //add(Squares[6][column + 1], column + 1, 7);
-            //add(Squares[1][column + 1], column + 1, 2);
         }
 
         //Adds Rook Squares to the table Squares[][]
@@ -310,125 +302,46 @@ public class Board extends GridPane {
         timerText.setText(String.format("%d:%02d", minutes, seconds));
     }
 
-    private void seekEventListener(MouseEvent event, Piece chessPiece) {
-        List<Node> nodes = getChildren();
-        for (Node node: nodes){
-            if (node instanceof Square && (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )){
-                ((Square) node).setStroke(Color.YELLOW);
-            }
-        }
-    }
-
-    private void resetSeekEventListener(MouseEvent event, Piece chessPiece){
-        List<Node> nodes = getChildren();
-        for (Node node: nodes){
-            if (node instanceof Square && (chessPiece.kill( (Square) node) || chessPiece.move( (Square) node) )) {
-                ((Square) node).setStroke(Color.BLACK);
-            }
-        }
-    }
-
-    private void moveAndKillListener(MouseEvent event){
-        System.out.println(clickCount);
-        List<Node> nodes = getChildren();
-        if (clickCount == 1){
-            clickedSqaure = ((Square) event.getSource());
-            if (clickedSqaure.isChessPiece())
-                for (Node node: nodes){
-                    if (node instanceof Square){
-                        if ((clickedSqaure.getPiece().kill( (Square) node)))
-                            ((Square) node).setStroke(Color.RED);
-                        else if(clickedSqaure.getPiece().move( (Square) node))
-                            ((Square) node).setStroke(Color.YELLOW);
-                    }
-                }
-            }
-        else if (clickCount == 2){
-            Color cl = clickedSqaure.getColor();
-            if (event.getSource() instanceof Square && clickedSqaure.isChessPiece()){
-                Square event2 = (Square) event.getSource();
-                for (Node node: nodes){
-                    if (node instanceof Square && (clickedSqaure.getPiece().kill( (Square) node) || clickedSqaure.getPiece().move( (Square) node) )) {
-                        ((Square) node).setStroke(Color.BLACK);
-                    }
-                }
-                if (!event2.equals(clickedSqaure)) {
-                    if (event2.isChessPiece() && clickedSqaure.getPiece().kill(event2)) {
-                        event2.replacePiece(clickedSqaure.getPiece());
-                        clickedSqaure.setContains_chess_piece(false);
-                        clickedSqaure.removePiece();
-                    } else if (!(event2.isChessPiece()) && clickedSqaure.getPiece().move(event2)) {
-                        event2.addPiece(clickedSqaure.getPiece());
-                        clickedSqaure.removePiece();
-                    }
-                }
-                clickedSqaure = null;
-            }
-
-        }
-        else if(clickCount == 3){
-            if (clickedSqaure != null && clickedSqaure.isChessPiece()){
-                for (Node node: nodes){
-                    if (node instanceof Square && (clickedSqaure.getPiece().kill( (Square) node) || clickedSqaure.getPiece().move( (Square) node) )) {
-                        ((Square) node).setStroke(Color.BLACK);
-                    }
-                }
-                clickCount = 0;
-            }
-            else{
-                clickCount = 1;
-                moveAndKillListener(event);
-            }
-        }
-    clickCount++;
-    }
-
+    //This method suggests possible Chess piece moves and handles the movement of pieces on Chess Board.
     private void moveKillmethod(MouseEvent event){
-        System.out.println(clickCount);
         clickCount++;
         if (clickCount == 1){
             clickedSqaure = (Square) event.getSource();
+            getIndexSquares(clickedSqaure);
             if (clickedSqaure != null && clickedSqaure.isChessPiece()){
-                for (int i = 0; i < 8; i++){
-                    for (int j = 0; j < 8; j++){
-                        Squares[i][j].setStroke(Color.BLACK);
-                        if (clickedSqaure.getPiece().kill(Squares[i][j]))
-                            Squares[i][j].setStroke(Color.GREEN);
-                        else if (clickedSqaure.getPiece().move(Squares[i][j]))
-                            Squares[i][j].setStroke(Color.YELLOW);
-                    }
-                }
+                showPieceMoves(clickedSqaure.getPiece(), row_num, column_num);
             }
             else{
                 clickCount--;
             }
         }
         else if (clickCount == 2){
-            Color cl = clickedSqaure.getPiece().getColor();
-            if (clickedSqaure != null && clickedSqaure.isChessPiece()){
-                for (int i = 0; i < 8; i++){
-                    for (int j = 0; j < 8; j++){
-                        Squares[i][j].setStroke(Color.BLACK);
-                        if (event.getSource() instanceof Square){
-                            if (!(clickedSqaure.equals(event.getSource()))){
-                                if (event.getSource().equals(Squares[i][j])){
-                                    if (Squares[i][j].isChessPiece() && clickedSqaure.getPiece().kill(Squares[i][j])){
-                                        Squares[i][j].replacePiece(clickedSqaure.getPiece());
-                                        clickedSqaure.setPiece(null);
-                                        clickedSqaure.setContains_chess_piece(false);
-                                        clickedSqaure.removePiece();
-                                    }
-                                    else if (!(Squares[i][j].isChessPiece()) && clickedSqaure.getPiece().move(Squares[i][j])){
-                                        Squares[i][j].addPiece(clickedSqaure.getPiece());
-                                        clickedSqaure.setPiece(null);
-                                        clickedSqaure.setContains_chess_piece(false);
-                                        clickedSqaure.removePiece();
+            if (clickedSqaure != null && clickedSqaure.isChessPiece()) {
+                if (clickedSqaure != null && clickedSqaure.isChessPiece()) {
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (event.getSource() instanceof Square) {
+                                if (!(clickedSqaure.equals(event.getSource()))) {
+                                    if (event.getSource().equals(Squares[i][j])) {
+                                        if (Squares[i][j].isChessPiece()) {
+                                            if (clickedSqaure.getPiece().kill(Squares[i][j]) && Squares[i][j].getStroke().equals(p_kill)) {
+                                                Squares[i][j].replacePiece(clickedSqaure.getPiece());
+                                                clickedSqaure.setPiece(null);
+                                                clickedSqaure.setContains_chess_piece(false);
+                                                clickedSqaure.removePiece();
+                                            }
+                                        } else if (!(Squares[i][j].isChessPiece())) {
+                                            if (clickedSqaure.getPiece().move(Squares[i][j]) && Squares[i][j].getStroke().equals(p_move)) {
+                                                Squares[i][j].addPiece(clickedSqaure.getPiece());
+                                                clickedSqaure.setPiece(null);
+                                                clickedSqaure.setContains_chess_piece(false);
+                                                clickedSqaure.removePiece();
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else{
-                            break;
+                            Squares[i][j].setStroke(Color.BLACK);
                         }
                     }
                 }
@@ -438,6 +351,168 @@ public class Board extends GridPane {
         }
     }
 
+    private void getIndexSquares(Square clickedSqaure){
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (Squares[i][j].equals(clickedSqaure)){
+                    row_num = i;
+                    column_num = j;
+                    break;
+                }
+            }
+        }
 
+    }
 
+    private void showPieceMoves(Piece piece, int row_num, int column_num){
+        boolean t_left = false, t = false, t_right = false;
+        boolean right = false, left = false;
+        boolean b_left = false, b = false, b_right = false;
+        for (int i = 1; i <= 8; i++){
+            for (int j = 1; j <= 8; j++){
+                if (!t_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)){
+                    try {
+                        if (Squares[row_num - j][column_num - j].isChessPiece()){
+                            if (Squares[row_num - j][column_num - j].getPiece().getColor().equals(piece.getColor()))
+                                t_left = true;
+
+                        }
+                        if (piece.kill(Squares[row_num - j][column_num - j])){
+                            Squares[row_num - j][column_num - j].setStroke(p_kill);
+                            t_left = true;
+                        }
+                        else if(piece.move(Squares[row_num - j][column_num - j])) {
+                            Squares[row_num - j][column_num - j].setStroke(p_move);
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        t_left = true;
+                    }
+
+                }
+                if (!t && (piece instanceof Queen || piece instanceof Rook || piece instanceof King || piece instanceof Pawn)){
+                    try{
+                        if (Squares[row_num - j][column_num].isChessPiece()){
+                            if (Squares[row_num - j][column_num].getPiece().getColor().equals(piece.getColor()))
+                                t = true;
+                        }
+                        if (piece.kill(Squares[row_num - j][column_num])){
+                            Squares[row_num - j][column_num].setStroke(p_kill);
+                            t = true;
+                        }
+                        else if(piece.move(Squares[row_num - j][column_num]))
+                            Squares[row_num - j][column_num].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        t = true;
+                    }
+                }
+
+                if (!t_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)){
+                    try{
+                        if (Squares[row_num - j][column_num + j].isChessPiece()){
+                            if (Squares[row_num - j][column_num + j].getPiece().getColor().equals(piece.getColor()))
+                                t_right = true;
+                        }
+                        if (piece.kill(Squares[row_num - j][column_num + j])){
+                            Squares[row_num - j][column_num + j].setStroke(p_kill);
+                            t_right = true;
+                        }
+                        else if(piece.move(Squares[row_num -j][column_num + j]))
+                            Squares[row_num - j][column_num + j].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        t_right = true;
+                    }
+                }
+                if (!right && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)){
+                    try {
+                        if (Squares[row_num][column_num + j].isChessPiece()){
+                            if (Squares[row_num][column_num + j].getPiece().getColor().equals(piece.getColor()))
+                                right = true;
+                        }
+                        if (piece.kill(Squares[row_num][column_num + j])){
+                            Squares[row_num][column_num + j].setStroke(p_kill);
+                            right = true;
+                        }
+                        else if(piece.move(Squares[row_num][column_num + j]))
+                            Squares[row_num][column_num + j].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        right = true;
+                    }
+
+                }
+                if (!left && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)){
+                    try {
+                        if (Squares[row_num][column_num - j].isChessPiece()){
+                            if (Squares[row_num][column_num - j].getPiece().getColor().equals(piece.getColor()))
+                                left = true;
+                        }
+                        if (piece.kill(Squares[row_num][column_num - j])){
+                            Squares[row_num][column_num - j].setStroke(p_kill);
+                            left = true;
+                        }
+                        else if(piece.move(Squares[row_num][column_num - j]))
+                            Squares[row_num][column_num - j].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        left = true;
+                    }
+                }
+                if (!b_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King)){
+                    try {
+                        if (Squares[row_num + j][column_num - j].isChessPiece()){
+                            if (Squares[row_num + j][column_num - j].getPiece().getColor().equals(piece.getColor()))
+                                b_left = true;
+                        }
+                        if (piece.kill(Squares[row_num  + j][column_num - j])){
+                            Squares[row_num + j][column_num - j].setStroke(p_kill);
+                            b_left = true;
+                        }
+                        else if(piece.move(Squares[row_num + j][column_num - j]))
+                            Squares[row_num + j][column_num - j].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        b_left = true;
+                    }
+                }
+                if (!b && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)){
+                    try{
+                        if (Squares[row_num + j][column_num].isChessPiece()){
+                            if (Squares[row_num + j][column_num].getPiece().getColor().equals(piece.getColor()))
+                                b = true;
+                        }
+                        if (piece.kill(Squares[row_num + j][column_num])){
+                            Squares[row_num + j][column_num].setStroke(p_kill);
+                            b = true;
+                        }
+                        else if(piece.move(Squares[row_num + j][column_num]))
+                            Squares[row_num + j][column_num].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        b = true;
+                    }
+
+                }
+                if (!b_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King)){
+                    try {
+                        if (Squares[row_num + j][column_num + j].isChessPiece()){
+                            if (Squares[row_num + j][column_num + j].getPiece().getColor().equals(piece.getColor()))
+                                b_right = true;
+                        }
+                        if (piece.kill(Squares[row_num + j][column_num + j])) {
+                            Squares[row_num + j][column_num + j].setStroke(p_kill);
+                            b_right = true;
+                        }
+                        else if (piece.move(Squares[row_num + j][column_num + j]))
+                            Squares[row_num + j][column_num + j].setStroke(p_move);
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        b_right = true;
+                    }
+                }
+            }
+        }
+    }
 }
