@@ -1,18 +1,23 @@
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public interface Piece {
-    public boolean kill(Piece p);
+    public boolean kill(Square sq);
 
-    public boolean move(Square s);
+    public boolean move(Square sq);
 
-    public boolean seek(Piece p);
+    public ArrayList<String> seek();
 
-    public void setPostion(String pos);
+    public void setPosition(String pos);
 
-    public String getPostion();
+    public String getPosition();
 
     public void setColor(Color color);
 
     public Color getColor();
+
+    public String getImageAddress();
 
 }
