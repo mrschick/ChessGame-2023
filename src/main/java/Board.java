@@ -201,6 +201,7 @@ public class Board extends GridPane {
         King wKing = new King(Color.WHITE);
         Square wKingsq = new Square(wKing);
         wKingsq.setPosition("d" + 1);
+        System.out.println(wKingsq.getPosition());
         wKingsq.setOnMouseClicked(this::moveKillmethod);
         wKingsq.setColor(light);
         Squares[7][3] = wKingsq;
@@ -241,6 +242,8 @@ public class Board extends GridPane {
                 add(Squares[i][j], j + 1, i + 1);
             }
         }
+
+
 
 
         for (int i = 0; i < 8; i++) {
@@ -489,7 +492,7 @@ public class Board extends GridPane {
                         }
                     }
 
-                    if (!b_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King)){
+                    if (!b_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King  || piece instanceof Pawn)){
                         try {
                             if (Squares[row_num + j][column_num - j].isChessPiece()){
                                 if (Squares[row_num + j][column_num - j].getPiece().getColor().equals(piece.getColor()))
@@ -528,7 +531,7 @@ public class Board extends GridPane {
                         }
                     }
 
-                    if (!b_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King)){
+                    if (!b_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King  || piece instanceof Pawn)){
                         try {
                             if (Squares[row_num + j][column_num + j].isChessPiece()){
                                 if (Squares[row_num + j][column_num + j].getPiece().getColor().equals(piece.getColor()))

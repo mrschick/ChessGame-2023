@@ -16,7 +16,7 @@ public class Square extends StackPane {
     private Image img;
 
     //Constructor to use Square object as a chess square.
-    public Square() {
+    public Square(){
         getChildren().add(square);
         square.setStroke(Color.BLACK);
     }
@@ -78,7 +78,6 @@ public class Square extends StackPane {
         image.setImage(img);
         getChildren().remove(1);
         getChildren().add(image);
-
     }
 
     public void removePiece(){

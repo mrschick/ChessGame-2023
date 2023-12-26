@@ -23,8 +23,9 @@ public class Pawn implements Piece {
     public boolean kill(Square sq) {
         allLegalKills();
         if ((sq.isChessPiece()) && !(sq.getColor().equals(this.color))){
-            if (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2)))
+            if (sq.getPosition().equals(kill1) || (sq.getPosition().equals(kill2))) {
                 return true;
+            }
         }
         return false;
     }
@@ -86,26 +87,27 @@ public class Pawn implements Piece {
     //sub method to check all possible moves for pawn under ideal situations
     private void allLegalMoves(){
         int row = Integer.parseInt(position.substring(1));
+        move2 = "";
 
         //Checks available moves for Black pawns
         if (color.equals(Color.BLACK)){
-            if (num_moves == 0){
+            if (row == 7){
                 move1 = String.valueOf(position.charAt(0)) + (row - 1);
                 move2 = String.valueOf(position.charAt(0)) + (row - 2);
             }
             else if (row > 1){
-                move1 = String.valueOf(position.charAt(0) + (row - 1));
+                move1 = String.valueOf(position.charAt(0)) + (row - 1);
             }
         }
 
         //Checks available moves for white pawns
         if (color.equals(Color.WHITE)){
-            if (num_moves == 0){
+            if (row <= 2){
                 move1 = String.valueOf(position.charAt(0)) + (row + 1);
                 move2 = String.valueOf(position.charAt(0)) + (row + 2);
             }
             else if (row < 8){
-                move1 = String.valueOf(position.charAt(0) + (row + 1));
+                move1 = String.valueOf(position.charAt(0)) + (row + 1);
             }
         }
     }
