@@ -22,6 +22,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class Board extends GridPane {
 
@@ -32,11 +36,18 @@ public class Board extends GridPane {
     private Text timerText;
     private Timeline timeline;
     private int remainingTime = 10;
-    private Square clickedSqaure = null;
+    private Square clickedSquare = null;
     private int clickCount = 0, row_num = 0, column_num = 0;
     private Square[][] Squares = new Square[8][8];
     private Color p_move = Color.YELLOW, p_kill = Color.GREEN, p_check = Color.RED;
     private boolean white_turn = false;
+    private Square wKingsq;
+    private int wKing_row, wKing_col;
+    private Square bKingsq;
+    private int bKing_row, bKing_col;
+    boolean wKing_checked, bKing_checked;
+    ArrayList<Square> threats_WKing = new ArrayList<>();
+    ArrayList<Square> threats_Bking = new ArrayList<>();
 
     public Board(ColorScheme colorScheme) {
         this.dark = colorScheme.dark;
@@ -64,7 +75,7 @@ public class Board extends GridPane {
         setValignment(timerText, VPos.CENTER);
 
         //adds Pawn Squares to table Squares[][].
-        for (int column = 0; column < 8; column++){
+        for (int column = 0; column < 8; column++) {
             Pawn bpawn = new Pawn(Color.BLACK);
             Pawn wpawn = new Pawn(Color.WHITE);
 
@@ -76,11 +87,10 @@ public class Board extends GridPane {
             wSQ.setPosition(String.valueOf((char) (column + 97)) + 2);
             wSQ.setOnMouseClicked(this::moveKillmethod);
 
-            if (column % 2 == 0){
+            if (column % 2 == 0) {
                 bSQ.setColor(dark);
                 wSQ.setColor(light);
-            }
-            else{
+            } else {
                 bSQ.setColor(light);
                 wSQ.setColor(dark);
             }
@@ -91,7 +101,7 @@ public class Board extends GridPane {
         //Adds Rook Squares to the table Squares[][]
         Rook bRook1 = new Rook(Color.BLACK);
         Square bRooksq1 = new Square(bRook1);
-        bRooksq1.setPosition("a" +  8);
+        bRooksq1.setPosition("a" + 8);
         bRooksq1.setOnMouseClicked(this::moveKillmethod);
         bRooksq1.setColor(light);
         Squares[0][0] = bRooksq1;
@@ -126,7 +136,7 @@ public class Board extends GridPane {
         Squares[0][1] = bKnightsq1;
 
         Knight bKnight2 = new Knight(Color.BLACK);
-        Square bKnightsq2= new Square(bKnight2);
+        Square bKnightsq2 = new Square(bKnight2);
         bKnightsq2.setPosition("g" + 8);
         bKnightsq2.setOnMouseClicked(this::moveKillmethod);
         bKnightsq2.setColor(light);
@@ -185,26 +195,29 @@ public class Board extends GridPane {
 
         Queen wQueen = new Queen(Color.WHITE);
         Square wQueensq = new Square(wQueen);
-        wQueensq.setPosition("e" + 1);
+        wQueensq.setPosition("d" + 1);
         wQueensq.setOnMouseClicked(this::moveKillmethod);
-        wQueensq.setColor(dark);
-        Squares[7][4] = wQueensq;
+        wQueensq.setColor(light);
+        Squares[7][3] = wQueensq;
 
         //adds the King Squares to table Squares[][]
         King bKing = new King(Color.BLACK);
-        Square bKingsq = new Square(bKing);
+        bKingsq = new Square(bKing);
         bKingsq.setPosition("e" + 8);
         bKingsq.setOnMouseClicked(this::moveKillmethod);
         bKingsq.setColor(light);
         Squares[0][4] = bKingsq;
+        bKing_row = 0;
+        bKing_col = 4;
 
         King wKing = new King(Color.WHITE);
-        Square wKingsq = new Square(wKing);
-        wKingsq.setPosition("d" + 1);
-        System.out.println(wKingsq.getPosition());
+        wKingsq = new Square(wKing);
+        wKingsq.setPosition("e" + 1);
         wKingsq.setOnMouseClicked(this::moveKillmethod);
-        wKingsq.setColor(light);
-        Squares[7][3] = wKingsq;
+        wKingsq.setColor(dark);
+        Squares[7][4] = wKingsq;
+        wKing_row = 7;
+        wKing_col = 3;
 
         //Adds plain Squares to the table Squares[][]
         int postion_number = 6;
@@ -237,13 +250,11 @@ public class Board extends GridPane {
             postion_number--;
         }
 
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 add(Squares[i][j], j + 1, i + 1);
             }
         }
-
-
 
 
         for (int i = 0; i < 8; i++) {
@@ -306,45 +317,52 @@ public class Board extends GridPane {
     }
 
     //This method suggests possible Chess piece moves and handles the movement of pieces on Chess Board.
-    private void moveKillmethod(MouseEvent event){
+    private void moveKillmethod(MouseEvent event) {
         clickCount++;
-        if (clickCount == 1){
-            clickedSqaure = (Square) event.getSource();
-            getIndexSquares(clickedSqaure);
-            if (clickedSqaure != null && clickedSqaure.isChessPiece()){
-                if (white_turn && clickedSqaure.getPiece().getColor().equals(Color.WHITE))
-                    showPieceMoves(clickedSqaure.getPiece(), row_num, column_num);
-                else if (!(white_turn) && clickedSqaure.getPiece().getColor().equals(Color.BLACK)) {
-                    showPieceMoves(clickedSqaure.getPiece(), row_num, column_num);
-                }
-                else
+        if (clickCount == 1) {
+            clickedSquare = (Square) event.getSource();
+            getIndexSquares(clickedSquare);
+            if (clickedSquare != null && clickedSquare.isChessPiece()) {
+                if (white_turn && clickedSquare.getPiece().getColor().equals(Color.WHITE)) {
+                    showPieceMoves(clickedSquare.getPiece(), row_num, column_num);
+                    System.out.println("\n" + "WKing checked" + wKing_checked);
+                    if (wKing_checked) {
+                        showMoveswhileChecked(clickedSquare, row_num, column_num);
+                        wKingsq.setStroke(Color.RED);
+                    }
+                } else if (!(white_turn) && clickedSquare.getPiece().getColor().equals(Color.BLACK)) {
+                    showPieceMoves(clickedSquare.getPiece(), row_num, column_num);
+                    System.out.println("\n" + "BKing checked" + bKing_checked);
+                    if (bKing_checked) {
+                        bKingsq.setStroke(Color.RED);
+                        showMoveswhileChecked(clickedSquare, row_num, column_num);
+                    }
+                } else
                     clickCount--;
-            }
-            else{
+            } else {
                 clickCount--;
             }
-        }
-        else if (clickCount == 2){
-            if (clickedSqaure != null && clickedSqaure.isChessPiece()) {
+        } else if (clickCount == 2) {
+            if (clickedSquare != null && clickedSquare.isChessPiece()) {
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        if (event.getSource() instanceof Square){
-                            if (!(clickedSqaure.equals(event.getSource()))) {
+                        if (event.getSource() instanceof Square) {
+                            if (!(clickedSquare.equals(event.getSource()))) {
                                 if (event.getSource().equals(Squares[i][j])) {
-                                    if (Squares[i][j].isChessPiece()){
-                                        if (clickedSqaure.getPiece().kill(Squares[i][j]) && Squares[i][j].getStroke().equals(p_kill)) {
-                                            Squares[i][j].replacePiece(clickedSqaure.getPiece());
-                                            clickedSqaure.setPiece(null);
-                                            clickedSqaure.setContains_chess_piece(false);
-                                            clickedSqaure.removePiece();
+                                    if (Squares[i][j].isChessPiece()) {
+                                        if (clickedSquare.getPiece().kill(Squares[i][j]) && Squares[i][j].getStroke().equals(p_kill)) {
+                                            Squares[i][j].replacePiece(clickedSquare.getPiece());
+                                            set_CheckedKing(Squares[i][j], Color.BEIGE);
+                                            clickedSquare.removePiece();
+                                            update_kingSq_helper(Squares[i][j]);
                                             white_turn = !white_turn;
                                         }
                                     } else if (!(Squares[i][j].isChessPiece())) {
-                                        if (clickedSqaure.getPiece().move(Squares[i][j]) && Squares[i][j].getStroke().equals(p_move)) {
-                                            Squares[i][j].addPiece(clickedSqaure.getPiece());
-                                            clickedSqaure.setPiece(null);
-                                            clickedSqaure.setContains_chess_piece(false);
-                                            clickedSqaure.removePiece();
+                                        if (clickedSquare.getPiece().move(Squares[i][j]) && Squares[i][j].getStroke().equals(p_move)) {
+                                            Squares[i][j].addPiece(clickedSquare.getPiece());
+                                            set_CheckedKing(Squares[i][j], Color.BEIGE);
+                                            clickedSquare.removePiece();
+                                            update_kingSq_helper(Squares[i][j]);
                                             white_turn = !white_turn;
                                         }
                                     }
@@ -358,23 +376,22 @@ public class Board extends GridPane {
             clickCount = 0;
             if (event.getSource() instanceof Square && ((Square) event.getSource()).isChessPiece()) {
                 try {
-                    boolean self = ((Square) event.getSource()).getPiece().equals(clickedSqaure.getPiece());
-                    if (((Square) event.getSource()).getPiece().getColor().equals(clickedSqaure.getPiece().getColor()) && !self) {
+                    boolean self = ((Square) event.getSource()).getPiece().equals(clickedSquare.getPiece());
+                    if (((Square) event.getSource()).getPiece().getColor().equals(clickedSquare.getPiece().getColor()) && !self) {
                         moveKillmethod(event);
                     } else {
-                        clickedSqaure = null;
+                        clickedSquare = null;
                     }
-                }
-                catch (NullPointerException e){
+                } catch (NullPointerException e) {
                 }
             }
         }
     }
 
-    private void getIndexSquares(Square clickedSqaure){
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                if (Squares[i][j].equals(clickedSqaure)){
+    private void getIndexSquares(Square clickedSquare) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (Squares[i][j].equals(clickedSquare)) {
                     row_num = i;
                     column_num = j;
                     break;
@@ -385,173 +402,445 @@ public class Board extends GridPane {
     }
 
     //Submethod to show possible moves for a chess piece.
-    private void showPieceMoves(Piece piece, int row_num, int column_num){
+    private void showPieceMoves(Piece piece, int row_num, int column_num) {
+        boolean k_checked = false;
+        Color color = piece.getColor();
+        if (color.equals(Color.BLACK) && bKing_checked) {
+            k_checked = true;
+            bKingsq.setStroke(p_check);
+        } else if (color.equals(Color.WHITE) && wKing_checked) {
+            System.out.println("\n" + "in spm ");
+            k_checked = true;
+            wKingsq.setStroke(p_check);
+        }
         boolean t_left = false, t = false, t_right = false;
         boolean right = false, left = false;
         boolean b_left = false, b = false, b_right = false;
-        for (int i = 1; i <= 8; i++){
-            for (int j = 1; j <= 8; j++){
-                if (piece instanceof  Knight){
-                    if (piece.kill(Squares[i - 1][j - 1])){
-                        Squares[i - 1][j - 1].setStroke(Color.GREEN);
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 8; j++) {
+                if (piece instanceof Knight) {
+                    if (piece.kill(Squares[i - 1][j - 1])) {
+                        Squares[i - 1][j - 1].setStroke(p_kill);
+                    } else if (piece.move(Squares[i - 1][j - 1])) {
+                        Squares[i - 1][j - 1].setStroke(p_move);
                     }
-                    else if (piece.move(Squares[i - 1][j - 1])){
-                        Squares[i - 1][j - 1].setStroke(Color.YELLOW);
-                    }
-                }
-                else{
-                    if (!t_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)){
+                } else {
+                    if (!t_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)) {
                         try {
-                            if (Squares[row_num - j][column_num - j].isChessPiece()){
-                                if (Squares[row_num - j][column_num - j].getPiece().getColor().equals(piece.getColor()))
-                                    t_left = true;
-                            }
-                            if (piece.kill(Squares[row_num - j][column_num - j])){
-                                Squares[row_num - j][column_num - j].setStroke(p_kill);
+                            if (Squares[row_num - j][column_num - j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num - j][column_num - j])) {
+                                    Squares[row_num - j][column_num - j].setStroke(p_kill);
+                                }
                                 t_left = true;
-                            }
-                            else if(piece.move(Squares[row_num - j][column_num - j])) {
+                            } else if (piece.move(Squares[row_num - j][column_num - j])) {
                                 Squares[row_num - j][column_num - j].setStroke(p_move);
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e){
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             t_left = true;
                         }
                     }
 
-                    if (!t && (piece instanceof Queen || piece instanceof Rook || piece instanceof King || piece instanceof Pawn)){
-
-                        try{
-                            if (Squares[row_num - j][column_num].isChessPiece()){
-                                if (Squares[row_num - j][column_num].getPiece().getColor().equals(piece.getColor()))
-                                    t = true;
-                            }
-                            if (piece.kill(Squares[row_num - j][column_num])){
-                                Squares[row_num - j][column_num].setStroke(p_kill);
+                    if (!t && (piece instanceof Queen || piece instanceof Rook || piece instanceof King || piece instanceof Pawn)) {
+                        try {
+                            if (Squares[row_num - j][column_num].isChessPiece()) {
+                                if (piece.kill(Squares[row_num - j][column_num])) {
+                                    Squares[row_num - j][column_num].setStroke(p_kill);
+                                }
                                 t = true;
-                            }
-                            else if(piece.move(Squares[row_num - j][column_num]))
+                            } else if (piece.move(Squares[row_num - j][column_num])) {
                                 Squares[row_num - j][column_num].setStroke(p_move);
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             t = true;
                         }
                     }
 
-                    if (!t_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)){
-                        try{
-                            if (Squares[row_num - j][column_num + j].isChessPiece()){
-                                if (Squares[row_num - j][column_num + j].getPiece().getColor().equals(piece.getColor()))
-                                    t_right = true;
-                            }
-                            if (piece.kill(Squares[row_num - j][column_num + j])){
-                                Squares[row_num - j][column_num + j].setStroke(p_kill);
+                    if (!t_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)) {
+                        try {
+                            if (Squares[row_num - j][column_num + j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num - j][column_num + j])) {
+                                    Squares[row_num - j][column_num + j].setStroke(p_kill);
+                                }
                                 t_right = true;
-                            }
-                            else if(piece.move(Squares[row_num -j][column_num + j]))
+                            } else if (piece.move(Squares[row_num - j][column_num + j])) {
                                 Squares[row_num - j][column_num + j].setStroke(p_move);
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             t_right = true;
                         }
                     }
 
-                    if (!right && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)){
+                    if (!right && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)) {
                         try {
-                            if (Squares[row_num][column_num + j].isChessPiece()){
-                                if (Squares[row_num][column_num + j].getPiece().getColor().equals(piece.getColor()))
-                                    right = true;
-                            }
-                            if (piece.kill(Squares[row_num][column_num + j])){
-                                Squares[row_num][column_num + j].setStroke(p_kill);
+                            if (Squares[row_num][column_num + j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num][column_num + j])) {
+                                    Squares[row_num][column_num + j].setStroke(p_kill);
+                                }
                                 right = true;
-                            }
-                            else if(piece.move(Squares[row_num][column_num + j]))
+                            } else if (piece.move(Squares[row_num][column_num + j])) {
                                 Squares[row_num][column_num + j].setStroke(p_move);
-                        }
-                        catch (ArrayIndexOutOfBoundsException e) {
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             right = true;
                         }
                     }
 
-                    if (!left && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)){
+                    if (!left && (piece instanceof Queen || piece instanceof King || piece instanceof Rook)) {
                         try {
-                            if (Squares[row_num][column_num - j].isChessPiece()){
-                                if (Squares[row_num][column_num - j].getPiece().getColor().equals(piece.getColor()))
-                                    left = true;
-                            }
-                            if (piece.kill(Squares[row_num][column_num - j])){
-                                Squares[row_num][column_num - j].setStroke(p_kill);
+                            if (Squares[row_num][column_num - j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num][column_num - j])) {
+                                    Squares[row_num][column_num - j].setStroke(p_kill);
+                                }
                                 left = true;
-                            }
-                            else if(piece.move(Squares[row_num][column_num - j]))
+                            } else if (piece.move(Squares[row_num][column_num - j])) {
                                 Squares[row_num][column_num - j].setStroke(p_move);
-                        }
-                        catch (ArrayIndexOutOfBoundsException e){
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             left = true;
                         }
                     }
 
-                    if (!b_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King  || piece instanceof Pawn)){
+                    if (!b_left && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)) {
                         try {
-                            if (Squares[row_num + j][column_num - j].isChessPiece()){
-                                if (Squares[row_num + j][column_num - j].getPiece().getColor().equals(piece.getColor()))
-                                    b_left = true;
-                            }
-                            if (piece.kill(Squares[row_num  + j][column_num - j])){
-                                Squares[row_num + j][column_num - j].setStroke(p_kill);
+                            if (Squares[row_num + j][column_num - j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num + j][column_num - j])) {
+                                    Squares[row_num + j][column_num - j].setStroke(p_kill);
+                                }
                                 b_left = true;
-                            }
-                            else if(piece.move(Squares[row_num + j][column_num - j])) {
+                            } else if (piece.move(Squares[row_num + j][column_num - j])) {
                                 Squares[row_num + j][column_num - j].setStroke(p_move);
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e){
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             b_left = true;
                         }
                     }
 
-                    if (!b && (piece instanceof Queen || piece instanceof King || piece instanceof Rook || piece instanceof Pawn)){
-                        try{
-                            if (Squares[row_num + j][column_num].isChessPiece()){
-                                if (Squares[row_num + j][column_num].getPiece().getColor().equals(piece.getColor())) {
-                                    b = true;
+                    if (!b && (piece instanceof Queen || piece instanceof King || piece instanceof Rook || piece instanceof Pawn)) {
+                        try {
+                            if (Squares[row_num + j][column_num].isChessPiece()) {
+                                if (piece.kill(Squares[row_num + j][column_num])) {
+                                    Squares[row_num + j][column_num].setStroke(p_kill);
                                 }
-                            }
-                            if (piece.kill(Squares[row_num + j][column_num])){
-                                Squares[row_num + j][column_num].setStroke(p_kill);
                                 b = true;
-                            }
-                            else if(piece.move(Squares[row_num + j][column_num])) {
+                            } else if (piece.move(Squares[row_num + j][column_num])) {
                                 Squares[row_num + j][column_num].setStroke(p_move);
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e){
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             b = true;
                         }
                     }
 
-                    if (!b_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King  || piece instanceof Pawn)){
+                    if (!b_right && (piece instanceof Queen || piece instanceof Bishop || piece instanceof King || piece instanceof Pawn)) {
                         try {
-                            if (Squares[row_num + j][column_num + j].isChessPiece()){
-                                if (Squares[row_num + j][column_num + j].getPiece().getColor().equals(piece.getColor()))
-                                    b_right = true;
-                            }
-                            if (piece.kill(Squares[row_num + j][column_num + j])) {
-                                Squares[row_num + j][column_num + j].setStroke(p_kill);
+                            if (Squares[row_num + j][column_num + j].isChessPiece()) {
+                                if (piece.kill(Squares[row_num + j][column_num + j])) {
+                                    Squares[row_num + j][column_num + j].setStroke(p_kill);
+                                }
                                 b_right = true;
-                            }
-                            else if (piece.move(Squares[row_num + j][column_num + j])) {
+                            } else if (piece.move(Squares[row_num + j][column_num + j])) {
                                 Squares[row_num + j][column_num + j].setStroke(p_move);
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException e){
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             b_right = true;
                         }
                     }
                 }
 
             }
+        }
+    }
+
+    private void showMoveswhileChecked(Square sq, int row_num, int column_num) {
+        System.out.println("iside showCheckedMoves");
+        System.out.println("wking threats size" + threats_WKing.size());
+        int array_size = 0;
+        Color cl = sq.getPiece().getColor();
+        if (cl.equals(Color.BLACK))
+            array_size = threats_Bking.size();
+        else
+            array_size = threats_WKing.size();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Square threat = null;
+                if (sq.getPiece() instanceof King) {
+                    if (Squares[i][j].getStroke().equals(p_kill)) {
+                        if (Squares[i][j].getColor().equals(Color.BLACK) && threats_WKing.contains(Squares[i][j])) {
+                            threat = Squares[i][j];
+                            threats_WKing.remove(Squares[i][j]);
+                        }
+
+                        Piece p = Squares[i][j].getPiece();
+                        Squares[i][j].replacePiece(sq.getPiece());
+                        sq.removePiece();
+                        if (cl.equals(Color.BLACK)) {
+                            set_CheckedKing(null, Color.WHITE);
+                            if (bKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_Bking.add(threat);
+                        } else {
+                            set_CheckedKing(null, Color.BLACK);
+                            if (wKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_WKing.add(threat);
+
+                        }
+                        sq.addPiece(Squares[i][j].getPiece());
+                        Squares[i][j].addPiece(p);
+                    } else if (Squares[i][j].getStroke().equals(p_move)) {
+                        if (Squares[i][j].getColor().equals(Color.BLACK) && threats_WKing.contains(Squares[i][j])) {
+                            threat = Squares[i][j];
+                            threats_WKing.remove(Squares[i][j]);
+                        }
+
+                        Squares[i][j].addPiece(sq.getPiece());
+                        sq.removePiece();
+                        if (cl.equals(Color.BLACK)) {
+                            set_CheckedKing(null, Color.WHITE);
+                            if (bKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_Bking.add(threat);
+                        } else {
+                            set_CheckedKing(null, Color.BLACK);
+                            if (wKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_WKing.add(threat);
+                        }
+                    }
+
+                    sq.addPiece(Squares[i][j].getPiece());
+                    Squares[i][j].removePiece();
+                } else {
+                    if (Squares[i][j].getStroke().equals(p_kill)) {
+                        System.out.println("iside showChecked moves kill.");
+                        if (Squares[i][j].getColor().equals(Color.BLACK) && threats_WKing.contains(Squares[i][j])) {
+                            threat = Squares[i][j];
+                            threats_WKing.remove(Squares[i][j]);
+                        } else if (Squares[i][j].getColor().equals(Color.WHITE) && threats_Bking.contains(Squares[i][j])) {
+                            threat = Squares[i][j];
+                            threats_Bking.remove(Squares[i][j]);
+                        }
+
+                        Piece piece = Squares[i][j].getPiece();
+                        Squares[i][j].replacePiece(sq.getPiece());
+                        sq.removePiece();
+
+
+                        if (cl.equals(Color.BLACK)) {
+                            set_CheckedKing(null, Color.WHITE);
+                            if (bKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_Bking.add(threat);
+                        } else if (cl.equals(Color.WHITE)) {
+                            System.out.println("iside showCheckedMoves kill col.white.");
+                            set_CheckedKing(null, Color.BLACK);
+                            System.out.println("iside showCheckedMoves kill col.white wKingchecked. " + wKing_checked);
+                            if (wKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null)
+                                threats_WKing.add(threat);
+                        }
+
+                        sq.addPiece(Squares[i][j].getPiece());
+                        Squares[i][j].setPiece(piece);
+                    } else if (Squares[i][j].getStroke().equals(p_move)) {
+                        System.out.println("INside showMovesChecked move");
+                        if (Squares[i][j].getColor().equals(Color.BLACK) && threats_WKing.contains(Squares[i][j])) {
+                            System.out.println("INside showMovesChecked move threat remove" + threat);
+                            threat = Squares[i][j];
+                            threats_WKing.remove(Squares[i][j]);
+                        } else if (Squares[i][j].getColor().equals(Color.WHITE) && threats_Bking.contains(Squares[i][j])) {
+                            threat = Squares[i][j];
+                            threats_Bking.remove(Squares[i][j]);
+                        }
+                        //System.out.println("move while checked: 2 " + Squares[i][j].getPosition());
+                        Squares[i][j].addPiece(sq.getPiece());
+                        sq.removePiece();
+
+                        if (cl.equals(Color.BLACK)) {
+                            System.out.println("threats wKing 1 :" + threats_WKing.size());
+                            set_CheckedKing(null, Color.WHITE);
+                            System.out.println("move while checked: 2 " + Squares[i][j].getPosition());
+                            System.out.println(bKing_checked);
+                            if (bKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            if (threat != null) {
+                                System.out.println("INside showMovesChecked move threat add" + threat);
+                                threats_Bking.add(threat);
+                            }
+                        } else if (cl.equals(Color.WHITE)) {
+                            System.out.println("threats wKing 1 :" + threats_WKing.size());
+                            Square thrseat = threats_WKing.get(0);
+                            ArrayList<Square> threats_copy;
+                            set_CheckedKing(null, Color.BLACK);
+                            System.out.println("move while checked: 3 " + Squares[i][j].getPosition());
+                            System.out.println(wKing_checked + "threat Size" + threats_WKing.size());
+                            if (wKing_checked)
+                                Squares[i][j].setStroke(Color.BLACK);
+                            else
+                                threats_WKing.add(thrseat);
+                            System.out.println("threats wKing 2 :" + threats_WKing.size());
+                            if (threat != null) {
+                                threats_WKing.add(threat);
+                                System.out.println("INside showMovesChecked move threat add" + threat + "\n");
+                            }
+                        }
+                        sq.addPiece(Squares[i][j].getPiece());
+                        Squares[i][j].removePiece();
+                        //System.out.println("move while checked: 4");
+                    }
+                }
+                if (cl.equals(Color.BLACK))
+                    bKing_checked = true;
+                else
+                    wKing_checked = true;
+            }
+        }
+
+    }
+
+    private void set_CheckedKing(Square sq, Color col) {
+        boolean WKChecked = false;
+        boolean BKChecked = false;
+        System.out.println("INside set_checkedKing Black");
+        System.out.println("INside set_checkedKing Black size = " + threats_WKing.size());
+        if (!(sq == null) && !threats_WKing.contains(sq)) {
+            System.out.println("added to the threat list.");
+            threats_WKing.add(sq);
+        }
+        for (int i = 0; i < threats_WKing.size(); i++) {
+            System.out.println("inside the loop for the threat list");
+            System.out.println("inside the loop for the threat list wking size 1: " + threats_WKing.size());
+            if (check_for_Check(threats_WKing.get(i)))
+                WKChecked = true;
+            else {
+                System.out.println("inside the loop for the threat list threat removed");
+                threats_WKing.remove(i);
+            }
+        }
+        System.out.println("inside the loop for the threat list wking size  2 :" + threats_WKing.size());
+        wKing_checked = WKChecked;
+        if (!(sq == null) && !threats_Bking.contains(sq)) {
+            threats_Bking.add(sq);
+        }
+        for (int i = 0; i < threats_Bking.size(); i++) {
+            if (check_for_Check(threats_Bking.get(i)))
+                BKChecked = true;
+            else
+                threats_Bking.remove(i);
+        }
+        bKing_checked = BKChecked;
+        System.out.println("return for check_for_check" + WKChecked);
+    }
+
+    private boolean check_for_Check(Square sq){
+        if (sq.isChessPiece()) {
+            Square enemy_King;
+            if (sq.getColor().equals(Color.BLACK))
+                enemy_King = wKingsq;
+            else
+                enemy_King = bKingsq;
+
+            //if (sq.getPiece().kill(enemy_King)) ArrayList.add(sq.getPiece());
+            if (sq.getPiece() instanceof Knight) {
+                if (sq.getPiece().kill(enemy_King))
+                    return true;
+                else
+                    return false;
+            } else {
+                if (sq.getPiece().kill(enemy_King)) {
+                    int check_direction = 0;
+                    getIndexSquares(enemy_King);
+                    int eKing_row = row_num, eKing_column = column_num;
+                    getIndexSquares(sq);
+                    int r_diff = row_num - eKing_row, c_diff = column_num - eKing_column;
+                    if (r_diff < 0 && c_diff < 0)
+                        check_direction = 1;
+                    else if (r_diff < 0 && c_diff == 0)
+                        check_direction = 2;
+                    else if (r_diff < 0 && c_diff > 0)
+                        check_direction = 3;
+                    else if (r_diff == 0 && c_diff > 0)
+                        check_direction = 4;
+                    else if (r_diff > 0 && c_diff > 0)
+                        check_direction = 5;
+                    else if (r_diff > 0 && c_diff == 0)
+                        check_direction = 6;
+                    else if (r_diff > 0 && c_diff < 0)
+                        check_direction = 7;
+                    else if (r_diff == 0 && c_diff < 0)
+                        check_direction = 8;
+
+                    System.out.println("Check Direction: " + check_direction);
+                    for (int i = 1; i <= 8; i++) {
+                        System.out.println("i: " + i);
+                        try {
+                            switch (check_direction) {
+                                case 1:
+                                    if (Squares[row_num + i][column_num + i].isChessPiece()) {
+                                        return Squares[row_num + i][column_num + i].equals(enemy_King);
+                                    }
+                                    break;
+                                case 2:
+                                    if (Squares[row_num + i][column_num].isChessPiece()) {
+                                        return Squares[row_num + i][column_num].equals(enemy_King);
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.println("Case 3:");
+                                    System.out.println("Is piece : " + (row_num - i) + (column_num + i) + Squares[row_num - i][column_num + i].isChessPiece());
+                                    System.out.println("Is enemy King: " + Squares[row_num - i][column_num + i].equals(enemy_King));
+                                    if (Squares[row_num + i][column_num - i].isChessPiece()) {
+                                        return Squares[row_num + i][column_num - i].equals(enemy_King);
+                                    }
+                                    break;
+                                case 4:
+                                    if (Squares[row_num][column_num - i].isChessPiece()) {
+                                        return Squares[row_num][column_num - i].equals(enemy_King);
+                                    }
+                                    break;
+                                case 5:
+                                    if (Squares[row_num - i][column_num - i].isChessPiece()) {
+                                        return Squares[row_num - i][column_num - i].equals(enemy_King);
+                                    }
+                                    break;
+                                case 6:
+                                    if (Squares[row_num - i][column_num].isChessPiece()) {
+                                        return Squares[row_num - i][column_num].equals(enemy_King);
+                                    }
+                                    break;
+                                case 7:
+                                    if (Squares[row_num - i][column_num + i].isChessPiece()) {
+                                        return Squares[row_num - i][column_num].equals(enemy_King);
+                                    }
+                                    break;
+                                case 8:
+                                    if (Squares[row_num][column_num + i].isChessPiece()) {
+                                        return Squares[row_num][column_num + i].equals(enemy_King);
+                                    }
+                                    break;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            System.out.println("threw a index out of bound");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void update_kingSq_helper(Square sq){
+        if (sq.getPiece() instanceof King){
+            if (sq.getColor().equals(Color.BLACK))
+                wKingsq = sq;
+            else
+                bKingsq = sq;
         }
     }
 }

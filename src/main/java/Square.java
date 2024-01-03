@@ -87,9 +87,10 @@ public class Square extends StackPane {
     }
 
     public <T extends Piece>void addPiece(T chessPiece){
+        if (contains_chess_piece)
+            getChildren().remove(1);
         setPiece(chessPiece);
         chessPiece.setPosition(position);
-        contains_chess_piece = true;
         img = new Image(this.chessPiece.getImageAddress());
         ImageView image = new ImageView();
         image.setImage(img);
@@ -102,6 +103,7 @@ public class Square extends StackPane {
 
     public <T extends  Piece> void setPiece(T chessPiece) {
         this.chessPiece = chessPiece;
+        this.contains_chess_piece = true;
     }
 
     public void setContains_chess_piece(boolean f){
