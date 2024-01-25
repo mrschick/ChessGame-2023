@@ -29,9 +29,10 @@ hs_err_pid*
 .settings/*
 
 # IntelliJ IDE
-.idea/*
+*.idea/*
 *.iml
 production/*
+out/*
 
 # MAVEN
 target
