@@ -106,7 +106,7 @@ public class Square extends StackPane {
         this.contains_chess_piece = true;
     }
 
-    public void setContains_chess_piece(boolean f){
+    public void setContains_chess_piece(boolean f) {
         contains_chess_piece = f;
     }
 }
