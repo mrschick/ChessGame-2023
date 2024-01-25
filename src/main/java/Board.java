@@ -1,7 +1,11 @@
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,13 +18,20 @@ import javafx.geometry.Insets;
 import javafx.animation.Timeline;
 import java.util.*;
 
+
 public class Board extends StackPane {
+
+    Color dark, light, background;
+    private Timeline timeline;
     private int remainingTime = 10;
-    private Square clickedSquare = null, wKingsq, bKingsq;
-    private int clickCount = 0, row_num = 0, column_num = 0, bKing_row, bKing_col;
+    private Square clickedSquare = null;
+    private int clickCount = 0, row_num = 0, column_num = 0;
     private Square[][] Squares = new Square[8][8];
-    private Color p_move = Color.GOLD , p_kill = Color.DARKGREEN, p_check = Color.RED, dark, light, background;
-    private boolean white_turn = false, wKing_checked, bKing_checked;
+    private Color p_move = Color.GOLD , p_kill = Color.DARKGREEN, p_check = Color.RED;
+    private boolean white_turn = false;
+    private Square wKingsq, bKingsq;
+    private int bKing_row, bKing_col;
+    boolean wKing_checked, bKing_checked;
     private Rook wRook1, bRook1;
     private Bishop bBishop1, wBishop1;
     private Queen bQueen, wQueen;
@@ -700,25 +711,25 @@ public class Board extends StackPane {
             //Top Right
             if (r_diff < 0 && c_diff < 0)
                 check_direction = 1;
-            //Top
+                //Top
             else if (r_diff < 0 && c_diff == 0)
                 check_direction = 2;
-            //Top Left
+                //Top Left
             else if (r_diff < 0 && c_diff > 0)
                 check_direction = 3;
-            //Right
+                //Right
             else if (r_diff == 0 && c_diff > 0)
                 check_direction = 4;
-            //Bottom Right
+                //Bottom Right
             else if (r_diff > 0 && c_diff > 0)
                 check_direction = 5;
-            //Bottom
+                //Bottom
             else if (r_diff > 0 && c_diff == 0)
                 check_direction = 6;
-            //Bottom Left
+                //Bottom Left
             else if (r_diff > 0 && c_diff < 0)
                 check_direction = 7;
-            //Left
+                //Left
             else if (r_diff == 0 && c_diff < 0)
                 check_direction = 8;
         }
@@ -778,7 +789,7 @@ public class Board extends StackPane {
                                 return Squares[row_num][column_num - i].equals(enemy_King);
                             }
                             break;
-                         //Top Left
+                        //Top Left
                         case 5:
                             if (Squares[row_num - i][column_num - i].isChessPiece()) {
                                 return Squares[row_num - i][column_num - i].equals(enemy_King);

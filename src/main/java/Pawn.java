@@ -89,6 +89,8 @@ public class Pawn implements Piece {
         int row = Integer.parseInt(position.substring(1));
         move2 = "";
 
+        move2 = "";
+
         //Checks available moves for Black pawns
         if (color.equals(Color.BLACK)){
             if (row == 7){
