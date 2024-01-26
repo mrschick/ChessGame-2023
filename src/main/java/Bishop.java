@@ -6,8 +6,7 @@ import java.util.ArrayList;
 public class Bishop implements Piece {
 
     private String position = "";
-    private Color color;
-    private int num_moves = 0;
+    private Color color;;
     private ArrayList<String> list;
 
     public Bishop(Color color){
@@ -40,15 +39,7 @@ public class Bishop implements Piece {
     }
 
     @Override
-    public ArrayList<String> seek() {
-        return list;
-    }
-
-    @Override
     public void setPosition(String pos) {this.position = pos;}
-
-    @Override
-    public String getPosition() {return position;}
 
     public void setColor(Color color) {this.color = color;}
 

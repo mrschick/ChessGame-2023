@@ -40,16 +40,7 @@ public class Knight implements Piece {
 
     //returns an ArrayList of hypothetical and real chess board addresses.
     @Override
-    public ArrayList<String> seek() {
-        allLegalMoves();
-        return list;
-    }
-
-    @Override
     public void setPosition(String pos) {this.position = pos;}
-
-    @Override
-    public String getPosition() {return position;}
 
     public void setColor(Color color) {this.color = color;}
 

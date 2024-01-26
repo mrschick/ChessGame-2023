@@ -38,16 +38,7 @@ public class King implements Piece {
     }
 
     @Override
-    public ArrayList<String> seek() {
-        allLegalMoves();
-        return list;
-    }
-
-    @Override
     public void setPosition(String pos) {this.position = pos;}
-
-    @Override
-    public String getPosition() {return position;}
 
     @Override
     public void setColor(Color color) {this.color = color;}
