@@ -1058,4 +1058,3 @@ public class Board extends StackPane {
         }
     }
 }
-

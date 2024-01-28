@@ -41,7 +41,6 @@ public class Pawn implements Piece {
         position = pos;
     }
 
-
     public void setColor(Color color) {this.color = color;}
 
     @Override

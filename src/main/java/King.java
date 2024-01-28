@@ -1,14 +1,15 @@
 import javafx.scene.paint.Color;
+
 import java.io.File;
 import java.util.ArrayList;
 
-public class King implements Piece {
+public class Bishop implements Piece {
 
     private String position = "";
-    private Color color;
+    private Color color;;
     private ArrayList<String> list;
 
-    public King(Color color){
+    public Bishop(Color color){
         list = new ArrayList<>();
         this.color = color;
     }
@@ -28,7 +29,7 @@ public class King implements Piece {
     @Override
     public boolean move(Square sq) {
         allLegalMoves();
-        if (!(sq.isChessPiece()) && !(goesIntoCheck())){
+        if (!(sq.isChessPiece())){
             for (String s : list) {
                 if (s.equals(sq.getPosition()))
                     return true;
@@ -40,7 +41,6 @@ public class King implements Piece {
     @Override
     public void setPosition(String pos) {this.position = pos;}
 
-    @Override
     public void setColor(Color color) {this.color = color;}
 
     @Override
@@ -51,9 +51,9 @@ public class King implements Piece {
         File path = null;
         try {
             if (color.equals(Color.BLACK)) {
-                path = new File("src/main/resources/black_pieces/king.png");
+                path = new File("src/main/resources/black_pieces/bishop.png");
             } else {
-                path = new File("src/main/resources/white_pieces/king.png");
+                path = new File("src/main/resources/white_pieces/bishop.png");
             }
         } catch (NullPointerException n) {
             n.printStackTrace();
@@ -62,22 +62,16 @@ public class King implements Piece {
     }
 
     private void allLegalMoves(){
+        list = new ArrayList<>();
         int column = position.charAt(0);
         int row = Integer.parseInt(position.substring(1));
 
-        list.add(String.valueOf((char)(column)) + (row + 1));
-        list.add(String.valueOf((char)(column)) + (row - 1));
-        list.add(String.valueOf((char)(column + 1)) + (row));
-        list.add(String.valueOf((char)(column + 1)) + (row + 1));
-        list.add(String.valueOf((char)(column + 1)) + (row - 1));
-        list.add(String.valueOf((char)(column - 1)) + (row));
-        list.add(String.valueOf((char)(column - 1)) + (row - 1));
-        list.add(String.valueOf((char)(column - 1)) + (row + 1));
-
-    }
-
-    private boolean goesIntoCheck(){
-        return false;
+        for (int i = 0; i < 8; i++){
+            list.add(String.valueOf((char) (column + i)) + (row + i));
+            list.add(String.valueOf((char) (column + i)) + (row - i));
+            list.add(String.valueOf((char) (column - i)) + (row + i));
+            list.add(String.valueOf((char) (column - i)) + (row - i));
+        }
     }
 
 
