@@ -41,7 +41,6 @@ public class Knight implements Piece {
     @Override
     public void setPosition(String pos) {this.position = pos;}
 
-    @Override
     public String getPosition() {return position;}
 
     public void setColor(Color color) {this.color = color;}
