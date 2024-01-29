@@ -32,9 +32,7 @@ public class Main extends Application {
                 Color.rgb(189, 168, 145),
                 Color.rgb(200, 200, 200)
         );
-        //schemes[0].setOnMouseClicked(evt -> {  });
-        /*schemes[1] = new ColorScheme();
-        schemes[2] = new ColorScheme();*/
+
         FlowPane colorSchemes = new FlowPane();
         colorSchemes.getChildren().addAll(schemes[0]);
 
@@ -85,9 +83,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    private void highlightColorScheme(int activeIdx) {
-        //
-    }
+    
 
 }

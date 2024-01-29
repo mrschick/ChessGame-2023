@@ -28,7 +28,7 @@ public class King implements Piece {
     @Override
     public boolean move(Square sq) {
         allLegalMoves();
-        if (!(sq.isChessPiece()) && !(goesIntoCheck())){
+        if (!(sq.isChessPiece())){
             for (String s : list) {
                 if (s.equals(sq.getPosition()))
                     return true;
@@ -38,16 +38,7 @@ public class King implements Piece {
     }
 
     @Override
-    public ArrayList<String> seek() {
-        allLegalMoves();
-        return list;
-    }
-
-    @Override
     public void setPosition(String pos) {this.position = pos;}
-
-    @Override
-    public String getPosition() {return position;}
 
     @Override
     public void setColor(Color color) {this.color = color;}
@@ -84,10 +75,5 @@ public class King implements Piece {
         list.add(String.valueOf((char)(column - 1)) + (row + 1));
 
     }
-
-    private boolean goesIntoCheck(){
-        return false;
-    }
-
 
 }
