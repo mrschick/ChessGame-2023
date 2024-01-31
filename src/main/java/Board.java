@@ -15,6 +15,10 @@ import javafx.animation.Timeline;
 import java.util.*;
 
 
+/**
+ * This Class creates a Chess Board Object as a GUI that Players can play Chess upon
+ * @author Sharjeel Zahid Mahmood
+ */
 public class Board extends StackPane {
 
     Color dark, light, background;
@@ -39,7 +43,11 @@ public class Board extends StackPane {
     Map<Square, Integer> threats_Wking = new HashMap<>();
     Map<Square, Integer> threats_Bking = new HashMap<>();
 
-    //Constructor for the Chess Board
+    /**
+     * This is the constructor for the Board object.
+     * @author Sharjeel Zahid Mahmood
+     * @param colorScheme The Color Design for the chess board.
+     */
     public Board(ColorScheme colorScheme) {
 
         gridPane = new GridPane();
@@ -293,11 +301,10 @@ public class Board extends StackPane {
                                     //If the destination Square is a ChessPiece and the move is valid, a pieceKill will be implemented
                                     if (Squares[i][j].isChessPiece()) {
                                         if (clickedSquare.getPiece().kill(Squares[i][j]) && Squares[i][j].getStroke().equals(p_kill)) {
-                                            Squares[i][j].replacePiece(clickedSquare.getPiece());
+                                            Squares[i][j].addPiece(clickedSquare.getPiece());
                                             clickedSquare.removePiece();
                                             update_threat_list(Squares[i][j]);
                                             update_kingSq_helper(Squares[i][j]);
-                                            check_for_promotion(Squares[i][j], i);
                                             white_turn = !white_turn;
                                         }
                                     }
@@ -308,7 +315,6 @@ public class Board extends StackPane {
                                             clickedSquare.removePiece();
                                             update_kingSq_helper(Squares[i][j]);
                                             update_threat_list(Squares[i][j]);
-                                            check_for_promotion(Squares[i][j], i);
                                             white_turn = !white_turn;
                                         }
                                     }
@@ -324,7 +330,7 @@ public class Board extends StackPane {
             if (event.getSource() instanceof Square && ((Square) event.getSource()).isChessPiece()) {
                 try {
                     boolean self = ((Square) event.getSource()).getPiece().equals(clickedSquare.getPiece());
-                    if (((Square) event.getSource()).getPiece().getColor().equals(clickedSquare.getPiece().getColor()) && !self) {
+                    if (((Square) event.getSource()).getColor().equals(clickedSquare.getColor()) && !self) {
                         moveKillmethod(event);
                     } else {
                         clickedSquare = null;
@@ -348,17 +354,20 @@ public class Board extends StackPane {
         }
     }
 
-    /*Method to show all possible moves for a chess piece.
-    Checks all squares in Squares[][] for a possible kill or move. Starts searching from the neighbouring squares
-    and gradually spreads out to all Diagnol and Cardinal directions using the possible move and kill directions of the clickedSquare.
-    When encounters a square with a chessPiece, determines if it is an ally or an enemy, then stops searching ahead in
-    that directions. Uses booleans to keep track of what direction has been exhausted.
-    Reduces time complexity by selectively iterating over the board, only choosing directions relative
-     to the clickedSquare.
+    /**
+     *This method shows all possible moves for a chess piece.
+     * Checks all squares in Squares[][] for a possible kill or move. Starts searching from the neighbouring squares
+     * and gradually searchs outwards in legally allowed directions for the piece inside clickedSquare.If encouters
+     * a square with a chess piece, stops looking further.
+     * Uses booleans to keep track of what direction has been exhausted
+     * @param clickedSquare The Square object that the Player MouseClicked on
+     * @param row_num       The row number of clickedSquare in Squares[][].
+     * @param column_num    The column number of clickedSquare in Squares[][].
      */
+
     private void showPieceMoves(Square clickedSquare, int row_num, int column_num) {
         Piece piece = clickedSquare.getPiece();
-        Color color = piece.getColor();
+        Color color = clickedSquare.getColor();
         if (color.equals(Color.BLACK) && bKing_checked) {
             bKingsq.setStroke(p_check);
         } else if (color.equals(Color.WHITE) && wKing_checked) {
@@ -555,9 +564,11 @@ public class Board extends StackPane {
         }
     }
 
-    /*
-    Keeps a track of the possible and real threats to both Kings. Adds these threats in an ArrayList and iterates over
-    them after each enemy move to either add or remove a threat, or to put the king under Check.
+    /**
+     * This method keeps a track of the possible and real threats to both Kings.
+     * Adds these threats in an ArrayList and iterates over move to possibly add or remove a threat.
+     * If sq has its enemy king under check, sets the kingChecked boolean to true.
+     * @param sq The square that contains the chess piece possibly threatning its enemy king.
      */
     private void update_threat_list(Square sq) {
         if (sq != null && sq.getColor().equals(Color.BLACK)) {
@@ -625,18 +636,23 @@ public class Board extends StackPane {
         }
     }
 
-        /*An auxiliary method that allows or disallows a move depending on if the move puts your King in Check or
-        if it gets out your already checked King from the check. For this method moves the pieces around to test
-        for validity and resets the pieces to their original configuration after.
-         */
-        private boolean valid_move(Square origin, Square target){
-            //saves the configuration of both squares for a later reset.
-            Piece t_piece = target.getPiece();
-            Piece o_piece = origin.getPiece();
-            //makes the move
-            target.addPiece(o_piece);
-            origin.removePiece();
-            boolean isKing = false;
+    /**
+     *  This method allows or disallows a move depending on if the move puts your King in Check or
+     *  if it gets out your already checked King from the check. For this method moves the pieces around to test
+     *  for validity and resets the pieces to their original configuration after.
+     *
+     * @param origin This square contains the chess piece that the player has chosen to move.
+     * @param target This square is the destination the player has chosen for their chess piece.
+     * @return True if the move is legal, otherwise returns false.
+     */
+    private boolean valid_move(Square origin, Square target){
+        //saves the configuration of both squares for a later reset.
+        Piece t_piece = target.getPiece();
+        Piece o_piece = origin.getPiece();
+        //makes the move
+        target.addPiece(o_piece);
+        origin.removePiece();
+        boolean isKing = false;
 
         //If Selected piece is the King
         //This helps prohibit moving the King into a Check
@@ -646,7 +662,7 @@ public class Board extends StackPane {
         }
 
             //if the clickedSquare piece is Black.
-            if (o_piece.getColor().equals(Color.BLACK)){
+            if (origin.getColor().equals(Color.BLACK)){
                 //If the moving piece is a king, this code prevents it from walking into a check by an enemy piece
                 // that was not in its threat list previously
                 if (isKing){
@@ -723,6 +739,15 @@ public class Board extends StackPane {
     //An auxiliary method that checks the Cardinal or Diagnol direction from which a threat threatens a King.
     //Uses a numbering system of 8 to denote these directions, starting with North-west as 1 and
     // increasing by 1 clockwise.
+
+    /**
+     * This is an auxiliary method that checks the Cardinal or Diagnol direction from which a threat threatens a King.
+     * Uses a numbering system of 8 to denote these directions, starting with North-west as 1 and increasing by 1 clockwise.
+     *
+     * @param sq        This square contains the chess piece that can possibly put its enemy king under check
+     * @param direction This is a flag used to allow or disallow the method to look for check direction.
+     * @return          return the check direction.
+     */
     private int check_direction(Square sq, int direction) {
         Square enemy_King;
         if (sq.getColor().equals(Color.BLACK))
@@ -767,7 +792,14 @@ public class Board extends StackPane {
         return check_direction;
     }
 
-    //An auxiliary method that checks if a threat has put a king under check.
+    /**
+     * This is an auxiliary method that checks if a threat has put a king under check.
+     *
+     * @param sq        The square contains the chess piece that might have checked its enemy king.
+     * @param direction This is the direction of the check.
+     * @param isKing    This is flag to indicate if sq contains a king chess piece or not.
+     * @return          Returns true if the enemy king of sq is under check and return false otherwise.
+     */
     private boolean king_under_check(Square sq, int direction, boolean isKing) {
         getIndexSquares(sq);
         Square enemy_King;
@@ -853,20 +885,10 @@ public class Board extends StackPane {
         return false;
     }
 
-    // Promotes any pawn that reaches the opposite end of the chess board to a Queen.
-    private void check_for_promotion(Square sq, int row){
-        if (sq.getPiece() instanceof Pawn){
-            if (sq.getColor().equals(Color.BLACK) && row == 7){
-                check_for_promotion_helper(sq);
-            }
-            else if (sq.getColor().equals(Color.WHITE) && row == 0){
-                check_for_promotion_helper(sq);
-            }
-        }
-
-    }
-
-    //This method creates new window to ask the player to select a piece they want to promote their pawn to.
+    /**
+     *  This method creates new window to ask the player to select a piece they want to promote their pawn to.
+     * @param sq This is the square that might contain a pawn chess piece.
+     */
     private void check_for_promotion_helper(Square sq){
         //Flowpane to display promotion options.
         FlowPane pane = new FlowPane();
@@ -939,8 +961,11 @@ public class Board extends StackPane {
         }
     }
 
-    //If a king is under check, check all possible moves for all the chess pieces of that color.If it finds a possible
-    //move, then returns. Otherwise, ends the game.
+    /**
+     * If a king is under check, check all possible moves for all the chess pieces of that color.
+     * If it finds a possible move, then returns. Otherwise, ends the game.
+     * @param This the color of the King chess piece currently under check
+     */
     private void isaCheckMate(Color color){
         setStrokeBlack();
         //First 2 nested loops to find and iterate over all ally chess pieces of the king under Check.
@@ -1007,9 +1032,14 @@ public class Board extends StackPane {
         }
     }
 
-    //If a pawn reaches the opposite end, this method promotes it to a Chess piece selected by the Player.
+    /**
+     * If a pawn reaches the opposite end, this method promotes it to a Chess piece selected by the Player
+     *
+     * @param event This is the mouseclick on promotion choice for the pawn that is to be promoted.
+     * @param sq    This is the sq that contains the pawn chess piece to be promoted.
+     */
     private void promotion(MouseEvent event, Square sq){
-        Color color = sq.getPiece().getColor();
+        Color color = sq.getColor();
         Piece piece = null;
         gridPane.setDisable(true);
         if (event.getSource().equals(queen_Button)){
@@ -1040,7 +1070,11 @@ public class Board extends StackPane {
         }
     }
 
-    //A helper method to update the location of a king piece if it was involved in a move.
+    /**
+     * A helper method to update the location of a king piece if it was involved in a move
+     *
+     * @param sq This is the square that might contain a King chess piece.
+     */
     private void update_kingSq_helper(Square sq){
         if (sq.getPiece() instanceof King){
             if (sq.getColor().equals(Color.BLACK))
@@ -1049,7 +1083,10 @@ public class Board extends StackPane {
                 wKingsq = sq;
         }
     }
-    //A helper method to set the Strokes of all Squares on the Board to Black.
+
+    /**
+     * This method sets the stroke of all squares in Squares[][] to Color.Black/
+     */
     private void setStrokeBlack(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){

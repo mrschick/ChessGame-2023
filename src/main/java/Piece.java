@@ -10,9 +10,6 @@ public interface Piece {
 
 
     public void setPosition(String pos);
-
-    public void setColor(Color color);
-
     public Color getColor();
 
     public String getImageAddress();

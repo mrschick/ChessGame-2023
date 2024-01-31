@@ -3,6 +3,11 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Creates a Pawn chess Piece Object using the interface Piece.java
+ *
+ * @author Sharjeel Zahid Mahmood
+ */
 public class Pawn implements Piece {
 
     private String position;
@@ -13,9 +18,22 @@ public class Pawn implements Piece {
     private String kill2 = "k2";
     private Color color;
 
+    /**
+     * Constructor for the Pawn chess piece Object.
+     *
+     * @param color The Color of the pawn which can be Black or White.
+     */
     public Pawn(Color color){
         this.color = color;
     }
+
+    /**
+     * This method determines if this.Pawn can kill the chess piece inside the parameter sq.
+     * returns false otherwise.
+     *
+     * @param sq A square that might contain an enemy chess piece.
+     * @return returns true if the this.Pawn can legally kill the chess piece inside sq, false otherwise.
+     */
     @Override
     public boolean kill(Square sq) {
         allLegalKills();
@@ -25,6 +43,13 @@ public class Pawn implements Piece {
         return false;
     }
 
+    /**
+     * This method determines if this.Pawn can move to the parameter sq.
+     * returns false otherwise.
+     *
+     * @param sq A square that might not contain a chess piece and is a possible move.
+     * @return returns true if the this.Pawn can move to the parameter sq, false otherwise.
+     */
     @Override
     public boolean move(Square sq) {
         //Checks if the move to square in the met-perimeter is a valid move
@@ -36,15 +61,31 @@ public class Pawn implements Piece {
         return false;
     }
 
+
+    /**
+     * Used to set the position of this.Pawn
+     * @param pos Conatains the position that is to be set as a String.
+     */
+
     @Override
     public void setPosition(String pos) {
         position = pos;
     }
 
-    public void setColor(Color color) {this.color = color;}
+    /**
+     * Used to get the color of this.Pawn which can be Black or white.
+     * @return returns the color of this.Pawn
+     */
+    public Color getColor(){
+        return this.color;
+    }
 
-    @Override
-    public Color getColor() {return color;}
+
+    /**
+     * Used to get a Pawn Image to use inside a Square Object in a GUI.
+     *
+     * @return the address of a Pawn chess piece image depending on the color of this.Pawn
+     */
     public String getImageAddress(){
         File path = null;
         try {
@@ -58,7 +99,10 @@ public class Pawn implements Piece {
         }
         return path.toURI().toString();}
 
-    //sub method to check all possible moves for pawn under ideal situations
+    /**
+     * Determines all hypothetical and real moves for this.Pawn
+     * Does not determine if the movesare legal or illegal.
+     */
     private void allLegalMoves(){
         int row = Integer.parseInt(position.substring(1));
         move2 = "";
@@ -88,7 +132,10 @@ public class Pawn implements Piece {
         }
     }
 
-    //submethod to find all available kills for pawn under ideal conditions
+    /**
+     * Determines all hypothetical and realkills for this.Pawn
+     * Does not determine if the kills are legal or illegal.
+     */
     private void allLegalKills(){
         int row = Integer.parseInt(position.substring(1));
         int column = position.charAt(0);
