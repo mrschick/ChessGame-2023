@@ -10,8 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.geometry.Insets;
-import javafx.animation.Timeline;
+import javafx.geometry.Insets;;
 import java.util.*;
 
 

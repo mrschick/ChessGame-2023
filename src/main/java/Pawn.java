@@ -1,7 +1,5 @@
 import javafx.scene.paint.Color;
-
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Creates a Pawn chess Piece Object using the interface Piece.java

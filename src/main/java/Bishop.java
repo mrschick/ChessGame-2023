@@ -1,12 +1,11 @@
 import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.util.ArrayList;
 
 /**
  * Creates a Bishop chess Piece Object using the interface Piece.java
  *
- * @author Sharjeel Zahid Mahmood
+ * @author Sharjeel Zahid Mahmood.
  */
 public class Bishop implements Piece {
 

@@ -1,5 +1,11 @@
 import javafx.scene.paint.Color;
 
+/**
+ * This interface contains methods that all chess piece classes need to use.
+ * This provides the utility of using all chess piece classes that implement this interface as Generic types.
+ *
+ * @author Sharjeel Zahid Mahmood.
+ */
 public interface Piece {
 
     /**
