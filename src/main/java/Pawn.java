@@ -86,6 +86,7 @@ public class Pawn implements Piece {
      *
      * @return the address of a Pawn chess piece image depending on the color of this.Pawn
      */
+    @Override
     public String getImageAddress(){
         File path = null;
         try {

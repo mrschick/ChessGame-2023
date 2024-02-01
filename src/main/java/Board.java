@@ -208,7 +208,6 @@ public class Board extends StackPane {
                     Square sq = new Square();
                     sq.setPosition(String.valueOf(position_char) + postion_number);
                     sq.setOnMouseClicked(this::moveKillmethod);
-                    System.out.println(sq.getPosition());
 
                     if (j % 2 == 0)
                         sq.setColor(dark);
@@ -964,7 +963,7 @@ public class Board extends StackPane {
     /**
      * If a king is under check, check all possible moves for all the chess pieces of that color.
      * If it finds a possible move, then returns. Otherwise, ends the game.
-     * @param This the color of the King chess piece currently under check
+     * @param color the color of the King chess piece currently under check
      */
     private void isaCheckMate(Color color){
         setStrokeBlack();

@@ -28,8 +28,8 @@ public class Square extends StackPane {
 
     /**
      * This is a constructor to create a Square object that contains a chess piece.
-     * @param chessPiece
-     * @param <T>
+     * @param chessPiece The chess piece that is to be added inside this.Square
+     * @param <T> Could be any class that implements the Piece interface.
      */
     public <T extends Piece> Square(T chessPiece) {
         square.setFill(Color.GREEN);
@@ -64,7 +64,7 @@ public class Square extends StackPane {
 
     /**
      * Sets the color of the this.Square.
-     * @param color
+     * @param color the color of the square.
      */
     public void setColor(Paint color) {
         square.setFill(color);
