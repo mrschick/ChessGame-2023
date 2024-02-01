@@ -27,9 +27,21 @@ public class Main extends Application {
         int activeScheme = 0;
         ColorScheme[] schemes = new ColorScheme[3];
         schemes[0] = new ColorScheme(
-                Color.rgb(133, 94, 66),
-                Color.rgb(222, 184, 135),
-                Color.rgb(189, 168, 145),
+            Color.rgb(133, 94, 66),
+            Color.rgb(222, 184, 135),
+            Color.rgb(189, 168, 145),
+            Color.rgb(200, 200, 200)
+        );
+        schemes[1] = new ColorScheme(
+            Color.rgb(150, 150, 150),
+            Color.rgb(237, 237, 237),
+            Color.rgb(120, 120, 120),
+            Color.rgb(200, 200, 200)
+        );
+        schemes[2] = new ColorScheme(
+                Color.rgb(118, 150, 86),
+                Color.rgb(238, 238, 210),
+                Color.rgb(185, 144, 24),
                 Color.rgb(200, 200, 200)
         );
 
