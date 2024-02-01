@@ -19,15 +19,17 @@ public class ColorScheme extends GridPane {
         this.boardBg = bBg;
         this.windowBg = wBg;
 
-        ColumnConstraints[] cols = new ColumnConstraints[2];
+        initLabels();
+    }
 
+    public void initLabels() {
         this.add(new Label("Dark Squares "), 0, 0);
         this.add(new Rectangle(squaresize, squaresize, dark), 1, 0);
         this.add(new Label("Light Squares "), 0, 1);
         this.add(new Rectangle(squaresize, squaresize, light), 1, 1);
         this.add(new Label("Board Background "), 0, 2);
-        this.add(new Rectangle(squaresize, squaresize, bBg), 1, 2);
+        this.add(new Rectangle(squaresize, squaresize, boardBg), 1, 2);
         this.add(new Label("Window Background "), 0, 3);
-        this.add(new Rectangle(squaresize, squaresize, wBg), 1, 3);
+        this.add(new Rectangle(squaresize, squaresize, windowBg), 1, 3);
     }
 }

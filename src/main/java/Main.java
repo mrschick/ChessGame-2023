@@ -24,7 +24,9 @@ public class Main extends Application {
                             +"\n"
                             +"\n");
 
-        int activeScheme = 0;
+        var activeScheme = new Object() { // needs to be anonymous object to be accessed by Event Handlers without Java complaining
+            int value = 0;
+        };
         ColorScheme[] schemes = new ColorScheme[3];
         schemes[0] = new ColorScheme(
             Color.rgb(133, 94, 66),
@@ -46,7 +48,13 @@ public class Main extends Application {
         );
 
         FlowPane colorSchemes = new FlowPane();
-        colorSchemes.getChildren().addAll(schemes[0]);
+        colorSchemes.setHgap(10);
+        colorSchemes.setVgap(10);
+        for (ColorScheme cs : schemes) {
+            colorSchemes.getChildren().addAll(cs);
+        }
+        TextField colorSchemeSelector = new TextField("1");
+        colorSchemes.getChildren().add(colorSchemeSelector);
 
         Button start = new Button("Start Game");
 
@@ -56,16 +64,23 @@ public class Main extends Application {
         // Game scene setup, with chessboard and current game info.
         FlowPane gamePane = new FlowPane();
         Scene gameScene = new Scene(gamePane, 1150, 700);
+        var boardObj = new Object() { // needs to be anonymous object to be accessed by Event Handlers without Java complaining
+            Board board = new Board(schemes[activeScheme.value]);
+        };
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
-            gameScene.setFill(schemes[activeScheme].windowBg);
+            activeScheme.value = Integer.parseInt(colorSchemeSelector.getText()) - 1;
+            if (activeScheme.value < 0) activeScheme.value = 0;
+            if (activeScheme.value > 2) activeScheme.value = 2;
+            System.out.println("activeScheme.value = "+activeScheme.value);
+            boardObj.board = new Board(schemes[activeScheme.value]);
+            gameScene.setFill(schemes[activeScheme.value].windowBg);
             gamePane.setBackground(new Background(new BackgroundFill(
-                    schemes[activeScheme].windowBg,
+                    schemes[activeScheme.value].windowBg,
                     new CornerRadii(10),
                     new Insets(10)
             )));
         });
-        Board board = new Board(schemes[activeScheme]);
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
         gameInfo.setPadding(new Insets(30, 20, 30, 20));
         gameInfo.setVgap(10);
@@ -85,7 +100,7 @@ public class Main extends Application {
         bPlayerInfo.getChildren().addAll(bInfo);
 
         gameInfo.getChildren().addAll(wPlayerInfo, bPlayerInfo);
-        gamePane.getChildren().addAll(board, gameInfo);
+        gamePane.getChildren().addAll(boardObj.board, gameInfo);
 
         primaryStage.setScene(menuScene);
         primaryStage.setTitle("ChessGame");
@@ -95,6 +110,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 
 }
