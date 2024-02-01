@@ -42,7 +42,7 @@ public class Main extends Application {
             Color.rgb(118, 150, 86),
             Color.rgb(238, 238, 210),
             Color.rgb(185, 144, 24),
-            Color.rgb(200, 200, 200)
+            Color.rgb(255, 245, 200)
         );
 
         FlowPane colorSchemes = new FlowPane();
