@@ -17,10 +17,6 @@ public class Tests {
     Square[][] squares = chessBoard.getSquares();
 
     @Test
-    void myTest() {
-        Assertions.assertEquals(2, 2);
-    }
-    @Test
     void testSquarePositions(){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
