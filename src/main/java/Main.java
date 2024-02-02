@@ -97,6 +97,8 @@ public class Main extends Application {
                 Color.rgb(200, 200, 200)
         );
 
+        
+
         FlowPane colorSchemes = new FlowPane();
         colorSchemes.setAlignment(Pos.CENTER);
         colorSchemes.getChildren().addAll(schemes[0]);
@@ -141,8 +143,43 @@ public class Main extends Application {
         Label bInfo = new Label("Black Player:\n\n");
         bPlayerInfo.getChildren().addAll(bInfo);
 
+        Button exitGame = new Button("Exit Game"); 
+        FlowPane buttonExit = new FlowPane(exitGame);
+        buttonExit.setPadding(new Insets(10));
+        buttonExit.setAlignment(Pos.CENTER);
+
+        exitGame.setOnMouseClicked(evt -> {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Game Confirmation");
+        alert.setHeaderText("Do you want to exit the game?");
+    
+        alert.showAndWait().ifPresent(result -> {
+        if (result == ButtonType.OK) {
+            primaryStage.close();
+        }
+    });
+});
+
+        Button resetGame = new Button("Reset Game");
+        FlowPane buttonReset = new FlowPane(resetGame);
+        // buttonReset.setPadding(new Insets(0));
+        buttonReset.setAlignment(Pos.CENTER_LEFT);
+
+        resetGame.setOnMouseClicked(evt -> {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Do you want to reset the game?");
+
+        alert.showAndWait().ifPresent(result -> {
+        if (result == ButtonType.OK) {
+            Board newBoard = new Board(schemes[activeScheme]);
+            gamePane.getChildren().set(0, newBoard);
+        }
+    });
+});
+
         gameInfo.getChildren().addAll(wPlayerInfo, bPlayerInfo);
-        gamePane.getChildren().addAll(board, gameInfo);
+        gamePane.getChildren().addAll(board, gameInfo,buttonExit,buttonReset);
 
         primaryStage.setScene(menuScene);
         primaryStage.setTitle("ChessGame");
