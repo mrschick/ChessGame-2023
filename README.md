@@ -74,7 +74,7 @@ The project was loosely organized, allowing for each memberr to choose what they
   chess game logic. I worked with the team on desingn efforts and integrated the backend with the frontend for a <br>
   visually appealing chess game and a smooth user interaction. Additionally, I collaborated with team members to <br>
   integrate and optimize the project using Maven, ensuring a streamlined and efficient development process. <br>
-* __Ridvan Plluzhina:__
+* __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into programming concepts like OOP, which is about organizing code by creating "classes" that represent different parts of the game, such as the chessboard and the pieces. This approach helped me understand how to make these parts work together smoothly. I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
 * __Fabio Schick:__
 
 #### Git 
