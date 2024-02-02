@@ -84,5 +84,7 @@ used to review and merge the specific braches into master.
 #### Challanges
 * __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, <br>
   overtime it became easier to come up with these solutions.
-* __Ridvan Plluzhina:__
+* __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into programming concepts like OOP, which is about organizing code by creating "classes" that represent different parts of the game, such as the chessboard and the pieces. This approach helped me understand how to make these parts work together smoothly.
+I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
+The project had its tough moments, especially when dealing with the complex rules of chess. Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming them was incredibly satisfying. Through this project, I learned not just about programming, but also about problem-solving and persistence.
 * __Fabio Schick:__ 
