@@ -1057,4 +1057,8 @@ public class Board extends StackPane {
             }
         }
     }
+
+    protected Square[][] getSquares() {
+        return Squares;
+    }
 }
