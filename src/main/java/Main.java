@@ -112,40 +112,40 @@ public class Main extends Application {
         
         
         FlowPane gamePane = new FlowPane();
-        Scene gameScene = new Scene(gamePane, 1150, 700);
+        Scene gameScene = new Scene(gamePane, 850, 700);
         start.setOnMouseClicked(evt -> {
             primaryStage.setScene(gameScene);
-            gameScene.setFill(schemes[activeScheme].windowBg);
+            gameScene.setFill(schemes[activeScheme].boardBg);
             gamePane.setBackground(new Background(new BackgroundFill(
-                    schemes[activeScheme].windowBg,
+                    schemes[activeScheme].boardBg,
                     new CornerRadii(10),
                     new Insets(10)
             )));
         });
         Board board = new Board(schemes[activeScheme]);
         FlowPane gameInfo = new FlowPane(Orientation.VERTICAL);
-        gameInfo.setPadding(new Insets(30, 20, 30, 20));
+        gameInfo.setPadding(new Insets(30, 20, 30, 50));
         gameInfo.setVgap(10);
 
 
 
-        FlowPane wPlayerInfo = new FlowPane();
-        wPlayerInfo.setVgap(10);
-        wPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
-        wPlayerInfo.setStyle("-fx-border-color: white;");
-        Label wInfo = new Label("White player:\n\n");
-        wPlayerInfo.getChildren().addAll(wInfo);
+        // FlowPane wPlayerInfo = new FlowPane();
+        // wPlayerInfo.setVgap(10);
+        // wPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
+        // wPlayerInfo.setStyle("-fx-border-color: white;");
+        // Label wInfo = new Label("White player:\n\n");
+        // wPlayerInfo.getChildren().addAll(wInfo);
 
-        FlowPane bPlayerInfo = new FlowPane();
-        bPlayerInfo.setVgap(10);
-        bPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
-        bPlayerInfo.setStyle("-fx-border-color: black;");
-        Label bInfo = new Label("Black Player:\n\n");
-        bPlayerInfo.getChildren().addAll(bInfo);
+        // FlowPane bPlayerInfo = new FlowPane();
+        // bPlayerInfo.setVgap(10);
+        // bPlayerInfo.setPadding(new Insets(30, 20, 30, 20));
+        // bPlayerInfo.setStyle("-fx-border-color: black;");
+        // Label bInfo = new Label("Black Player:\n\n");
+        // bPlayerInfo.getChildren().addAll(bInfo);
 
         Button exitGame = new Button("Exit Game"); 
         FlowPane buttonExit = new FlowPane(exitGame);
-        buttonExit.setPadding(new Insets(10));
+        FlowPane.setMargin(buttonExit, new Insets(0, 0, 0, 0)); 
         buttonExit.setAlignment(Pos.CENTER);
 
         exitGame.setOnMouseClicked(evt -> {
@@ -161,8 +161,8 @@ public class Main extends Application {
 });
 
         Button resetGame = new Button("Reset Game");
+        
         FlowPane buttonReset = new FlowPane(resetGame);
-        // buttonReset.setPadding(new Insets(0));
         buttonReset.setAlignment(Pos.CENTER_LEFT);
 
         resetGame.setOnMouseClicked(evt -> {
@@ -178,7 +178,7 @@ public class Main extends Application {
     });
 });
 
-        gameInfo.getChildren().addAll(wPlayerInfo, bPlayerInfo);
+        // gameInfo.getChildren().addAll(wPlayerInfo, bPlayerInfo);
         gamePane.getChildren().addAll(board, gameInfo,buttonExit,buttonReset);
 
         primaryStage.setScene(menuScene);
