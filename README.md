@@ -49,7 +49,14 @@ Follow these instructions to run the application
 We implemented the projected Java and the javafx library for the Graphical User Interface. All the chess piece clasess  <br>
 implement the interface "Piece.java". This allows for generic return types and generic parameters to be used in methods.<br>
 The Sqaure.java class is used to create chess board squares that can contain chess pieces or can be empty. The Board    <br>
-class uses these square objects to create a functioning 2D chess board.
+class uses these square objects to create a functioning 2D chess board. 
+
+#### Third Party Libraries:
+* org.junit.jupiter:junit-jupiter-api (Version: 5.7.1)
+* org.junit.jupiter:junit-jupiter-engine (Version: 5.7.1
+* org.apache.maven.plugins:maven-compiler-plugin (Version: 3.8.1)
+* org.apache.maven.plugins:maven-resources-plugin (Version: 3.2.0)
+* org.apache.maven.plugins:maven-surefire-plugin (Version: 3.0.0)
 
 #### Programming Techniques Used:
 We used the following techniques while developing our project:
@@ -74,7 +81,9 @@ The project was loosely organized, allowing for each memberr to choose what they
   chess game logic. I worked with the team on desingn efforts and integrated the backend with the frontend for a <br>
   visually appealing chess game and a smooth user interaction. Additionally, I collaborated with team members to <br>
   integrate and optimize the project using Maven, ensuring a streamlined and efficient development process. <br>
-* __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into OOP programming. I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
+* __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into <br>
+   OOP programming. I also explored JavaFX, a tool for building the game's interface, which is what players see and <br>
+  interact with. It was exciting to see how code turns into a visual game that people can play.<br>
 * __Fabio Schick:__
 
 #### Git 
@@ -83,6 +92,10 @@ used to review and merge the specific braches into master.
 
 #### Challanges
 * __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, <br>
-  overtime it became easier to come up with these solutions.
-* __Ridvan Plluzhina:__ The project had its tough moments, especially when dealing with the complex rules of chess. Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming them was incredibly satisfying. Through this project, I learned not just about programming, but also about problem-solving and persistence.
+  overtime it became easier to come up with these solutions. <br>
+* __Ridvan Plluzhina:__ The project had its tough moments, especially when dealing with the complex rules of chess. <br>
+  Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was <br>
+  designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming <br>
+  them was incredibly satisfying. Through this project, I learned not just about programming, but also about <br>
+  problem-solving and persistence.<br>
 * __Fabio Schick:__ 
