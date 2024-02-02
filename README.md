@@ -4,6 +4,7 @@
 To create a 2D Chess Game in Java.
 
 ## Group Members
+This Project was developed by:
 * Sharjeel Zahid Mahmood
 * Ridvan Plluzhina
 * Fabio Schick
@@ -15,22 +16,22 @@ The application enforces standard chess rules and provides a visually appealing 
 ## Building and Running the Project
 
 ### Prerequisites
-* Java Development Kit(JDK) 17.
-* An IDE such as IntelliJ IDEA.
+* To run this application, you need to have Java and Java Development Kit(JDK) 17 pre-installed on your computer.<br>
+If you don't have Java already installed, you can download it at [oracle.com](https://www.oracle.com/java/technologies/downloads/).
 
 ### Build and Run
-1. Clone the repository to your local machine using:   git clone https://github.com/mrschick/ChessGame-2023.git-2
-2. You can run the project using one of the 2 ways below.  <br>
-   * Open the Project in your IDE, then compile and run the GUIStarter.java  <br>
-   * Navigate inside the directory ChessGame-2023 and run the command:  <br>
-     mvn exec:java
-   * JavaDocs can be found inside the folder ChessGame-2023/target/classes/apidocs
-3. #### Maven:  <br>
-    * To build the project with maven, inside the ChessGame-2023 repository use the commands:  <br>
-       mvn compile  <br>
-       mvn install
-    * Extract the .jar file "ChessGame-1.0.jar" to a directory of your choice.
-    * JavaDocs can be found inside the directory: ChessGame-1.0/apidocs
+Follow these instructions to run the application
+1. Clone the repository to your local machine using:<br>
+   ```git clone https://github.com/mrschick/ChessGame-2023.git```<br>
+2. To run the application via maven commands follow these instructions:
+   * In your terminal, navigate inside the directory ChessGame-2023.
+   * Clean the repository using the command:<br> ```mvn clean```<br>
+   * Build the project using the command:<br> ```mvn package```<br>
+   * Finally, to run the application type in the command: <br> ```mvn exec: java```<br>
+   * If this doesn't work, type in the command: <br>  ```java -jar ./<path-to-the-jar-file>.jar```
+    
+3. You can run the tests with the command: <br> ```mvn tests``` <br>
+4. JavaDocs can be found inside the directory ChessGame-1.0/apidocs.
 
 ### User's Guide
 1. Launch the application
@@ -49,14 +50,30 @@ We implemented the projected Java and the javafx library for the Graphical User 
 implement the interface "Piece.java". This allows for generic return types and generic parameters to be used in methods.<br>
 The Sqaure.java class is used to create chess board squares that can contain chess pieces or can be empty. The Board    <br>
 class uses these square objects to create a functioning 2D chess board. No third party libraries were used.
+#### Programming Techniques Used:
+We used the following techniques while developing our project:
+* __Interface__ was used to allow for uniform implementation of all Chess piece Objects.
+* __Generic Methods__ were used to allow for different chess peices to be used
+* __Collections__ were used as they allowed store and manage objects such as chess board squares.
+* __Try-catch blocks__ were an integral part of the code as they allowed for smooth running of the code when an error <br>
+  was already expected.
+* __Method Overriding__ was used as it allowed for a uniform implementaion of all Chess piece classes while implementing <br>
+ an interface
+* __Lambda Expressions__ were used for easier operations on EventListeners.
+* __File I/O__ was used to load chess piece images.
+* __Component Design Pattern__ was used as it allowed for a heirachical design, increased scalability and uniformity.
+* __Graphical User Interface__ was used the core part of the project as it allowed players to interact with the game.
+* __Casting__ was often used to convert data types with allowed for a vast range of operations on certain variables.
 
-### Organization
+### Experience
+#### Organization
 The project was loosely organized, allowing for each memberr to choose what they want to work on.
+* __Sharjeel Zahid Mahmood:__ In t
 
-### Git 
+#### Git 
 Git was mostly used for version control, creating branches for working on each scope of the project. Pull requests were <br>
 used to review and merge the specific braches into master.
 
-### Challanges
+#### Challanges
 * Sharjeel Zahid Mahmood: I found it difficult to come up with the logic for the implementation of chess rules. But, <br>
   overtime it became easier to come up with these solutions.
