@@ -28,7 +28,7 @@ Follow these instructions to run the application
    * Clean the repository using the command:<br> ```mvn clean```<br>
    * Build the project using the command:<br> ```mvn package```<br>
    * Finally, to run the application type in the command: <br> ```mvn exec: java```<br>
-   * If this doesn't work, type in the command: <br>  ```java -jar ./<path-to-the-jar-file>.jar```
+   * If this doesn't work, type in the command: <br>  ```java -jar ./target/ChessGame-1.0-jar-with-dependencies.jar```
     
 3. You can run the tests with the command: <br> ```mvn tests``` <br>
 4. JavaDocs can be found inside the directory ChessGame-1.0/apidocs.
@@ -49,7 +49,8 @@ Follow these instructions to run the application
 We implemented the projected Java and the javafx library for the Graphical User Interface. All the chess piece clasess  <br>
 implement the interface "Piece.java". This allows for generic return types and generic parameters to be used in methods.<br>
 The Sqaure.java class is used to create chess board squares that can contain chess pieces or can be empty. The Board    <br>
-class uses these square objects to create a functioning 2D chess board. No third party libraries were used.
+class uses these square objects to create a functioning 2D chess board.
+
 #### Programming Techniques Used:
 We used the following techniques while developing our project:
 * __Interface__ was used to allow for uniform implementation of all Chess piece Objects.
@@ -68,12 +69,20 @@ We used the following techniques while developing our project:
 ### Experience
 #### Organization
 The project was loosely organized, allowing for each memberr to choose what they want to work on.
-* __Sharjeel Zahid Mahmood:__ In t
+* __Sharjeel Zahid Mahmood:__ My responsibilities encompassed the design of the structure and implementation of the  <br>
+  Java classes that created chess objects, with a particular focus on the backend to ensure seamless execution of the  <br>
+  chess game logic. I worked with the team on desingn efforts and integrated the backend with the frontend for a <br>
+  visually appealing chess game and a smooth user interaction. Additionally, I collaborated with team members to <br>
+  integrate and optimize the project using Maven, ensuring a streamlined and efficient development process. <br>
+* __Ridvan Plluzhina:__
+* __Fabio Schick:__
 
 #### Git 
 Git was mostly used for version control, creating branches for working on each scope of the project. Pull requests were <br>
 used to review and merge the specific braches into master.
 
 #### Challanges
-* Sharjeel Zahid Mahmood: I found it difficult to come up with the logic for the implementation of chess rules. But, <br>
+* __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, <br>
   overtime it became easier to come up with these solutions.
+* __Ridvan Plluzhina:__
+* __Fabio Schick:__ 
