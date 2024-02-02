@@ -45,7 +45,6 @@ public class Board extends StackPane {
     /**
      * This is the constructor for the Board object.
      * @author Sharjeel Zahid Mahmood
-     * @param colorScheme The Color Design for the chess board.
      */
     public Board(ColorScheme colorScheme) {
 
@@ -261,6 +260,7 @@ public class Board extends StackPane {
     or moves the chess piece on the second MouseClick.
      */
     private void moveKillmethod(MouseEvent event) {
+        System.out.println("Move and kill");
         clickCount++;
         //On the first MouseClick
         if (clickCount == 1) {
@@ -303,6 +303,7 @@ public class Board extends StackPane {
                                             clickedSquare.removePiece();
                                             update_threat_list(Squares[i][j]);
                                             update_kingSq_helper(Squares[i][j]);
+                                            check_for_promotion(Squares[i][j], i);
                                             white_turn = !white_turn;
                                         }
                                     }
@@ -313,6 +314,7 @@ public class Board extends StackPane {
                                             clickedSquare.removePiece();
                                             update_kingSq_helper(Squares[i][j]);
                                             update_threat_list(Squares[i][j]);
+                                            check_for_promotion(Squares[i][j], i);
                                             white_turn = !white_turn;
                                         }
                                     }
@@ -328,7 +330,7 @@ public class Board extends StackPane {
             if (event.getSource() instanceof Square && ((Square) event.getSource()).isChessPiece()) {
                 try {
                     boolean self = ((Square) event.getSource()).getPiece().equals(clickedSquare.getPiece());
-                    if (((Square) event.getSource()).getColor().equals(clickedSquare.getColor()) && !self) {
+                    if (((Square) event.getSource()).getPiece().getColor().equals(clickedSquare.getPiece().getColor()) && !self) {
                         moveKillmethod(event);
                     } else {
                         clickedSquare = null;
@@ -341,6 +343,7 @@ public class Board extends StackPane {
 
     //An auxiliary method to get the indexes of a Square in the Squares[][]
     private void getIndexSquares(Square clickedSquare) {
+        System.out.println("getIndexsquares");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (Squares[i][j].equals(clickedSquare)) {
@@ -363,9 +366,10 @@ public class Board extends StackPane {
      * @param column_num    The column number of clickedSquare in Squares[][].
      */
 
-    private void showPieceMoves(Square clickedSquare, int row_num, int column_num) {
+    protected void showPieceMoves(Square clickedSquare, int row_num, int column_num) {
+        System.out.println("showPieceMoves");
         Piece piece = clickedSquare.getPiece();
-        Color color = clickedSquare.getColor();
+        Color color = piece.getColor();
         if (color.equals(Color.BLACK) && bKing_checked) {
             bKingsq.setStroke(p_check);
         } else if (color.equals(Color.WHITE) && wKing_checked) {
@@ -569,6 +573,7 @@ public class Board extends StackPane {
      * @param sq The square that contains the chess piece possibly threatning its enemy king.
      */
     private void update_threat_list(Square sq) {
+        System.out.println("Update threat list");
         if (sq != null && sq.getColor().equals(Color.BLACK)) {
             if (sq.isChessPiece() && sq.getPiece().kill(wKingsq) && !threats_Wking.containsKey(sq)) {
                 if (sq.getPiece() instanceof Knight) {
@@ -617,9 +622,11 @@ public class Board extends StackPane {
 
             boolean check = false;
             ArrayList<Square> toRemove = new ArrayList<>();
+            //System.out.println("Threats to the black king:");
             for (var entry : threats_Bking.entrySet()){
                 if (entry.getKey().isChessPiece() && entry.getKey().getPiece().kill(bKingsq)) {
                     if (king_under_check(entry.getKey(), entry.getValue(), false)) {
+                        System.out.println("" + entry.getKey().getPosition());
                         check = true;
                     }
                 } else {
@@ -644,7 +651,9 @@ public class Board extends StackPane {
      * @return True if the move is legal, otherwise returns false.
      */
     private boolean valid_move(Square origin, Square target){
+        System.out.println("valid move");
         //saves the configuration of both squares for a later reset.
+        //System.out.println("Black king under check: " + bKing_checked);
         Piece t_piece = target.getPiece();
         Piece o_piece = origin.getPiece();
         //makes the move
@@ -659,80 +668,81 @@ public class Board extends StackPane {
             update_kingSq_helper(target);
         }
 
-            //if the clickedSquare piece is Black.
-            if (origin.getColor().equals(Color.BLACK)){
-                //If the moving piece is a king, this code prevents it from walking into a check by an enemy piece
-                // that was not in its threat list previously
-                if (isKing){
-                    for (int i = 0; i < 8; i++){
-                        for (int j = 0; j < 8; j++){
-                            //Finds an enemy piece that is a threat to the king after the move.
-                            if (Squares[i][j].isChessPiece() && Squares[i][j].getColor().equals(Color.WHITE)){
-                                if (Squares[i][j].getPiece().kill(bKingsq)) {
-                                    //adds the new threat to the threat list.
-                                    if (Squares[i][j].getPiece() instanceof Knight)
-                                        threats_Bking.put(Squares[i][j], check_direction(Squares[i][j], 0));
-                                    else
-                                        threats_Bking.put(Squares[i][j], check_direction(Squares[i][j], -1));
-                                }
+        //if the clickedSquare piece is Black.
+        if (o_piece.getColor().equals(Color.BLACK)){
+            //If the moving piece is a king, this code prevents it from walking into a check by an enemy piece
+            // that was not in its threat list previously
+            if (isKing){
+                for (int i = 0; i < 8; i++){
+                    for (int j = 0; j < 8; j++){
+                        //Finds an enemy piece that is a threat to the king after the move.
+                        if (Squares[i][j].isChessPiece() && Squares[i][j].getColor().equals(Color.WHITE)){
+                            if (Squares[i][j].getPiece().kill(bKingsq)) {
+                                //adds the new threat to the threat list.
+                                if (Squares[i][j].getPiece() instanceof Knight)
+                                    threats_Bking.put(Squares[i][j], check_direction(Squares[i][j], 0));
+                                else
+                                    threats_Bking.put(Squares[i][j], check_direction(Squares[i][j], -1));
                             }
                         }
                     }
                 }
-                //iterates over each threat to see if any of them still threatens or newly threatens their enemy king.
-                for (var  entry : threats_Bking.entrySet()){
-                    //If ally king is still in check after move return false to indicate non-valid move.
-                    if (king_under_check(entry.getKey(), entry.getValue(), isKing)) {
-                        //Board reset to original configuration.
-                        origin.addPiece(o_piece);
-                        if (t_piece == null)
-                            target.removePiece();
-                        else
-                            target.addPiece(t_piece);
-                        update_kingSq_helper(origin);
-                        return false;
-                    }
+            }
+            //iterates over each threat to see if any of them still threatens or newly threatens their enemy king.
+            for (var  entry : threats_Bking.entrySet()){
+                //If ally king is still in check after move return false to indicate non-valid move.
+                if (king_under_check(entry.getKey(), entry.getValue(), isKing)) {
+                    //Board reset to original configuration.
+                    origin.addPiece(o_piece);
+                    if (t_piece == null)
+                        target.removePiece();
+                    else
+                        target.addPiece(t_piece);
+                    update_kingSq_helper(origin);
+                    return false;
                 }
             }
-            //If the clickedSquare piece is White.
-            else{
-                //If the moving piece is a king, this code prevents it from walking into a check by an enemy piece
-                // that was not in its threat list previously
-                if (isKing){
-                    for (int i = 0; i < 8; i++){
-                        for (int j = 0; j < 8; j++){
-                            if (Squares[i][j].isChessPiece() && Squares[i][j].getColor().equals(Color.BLACK)){
-                                if (Squares[i][j].getPiece().kill(bKingsq)) {
-                                    if (Squares[i][j].getPiece() instanceof Knight)
-                                        threats_Wking.put(Squares[i][j], check_direction(Squares[i][j], 0));
-                                    else
-                                        threats_Wking.put(Squares[i][j], check_direction(Squares[i][j], -1));
-                                }
-                            }
-                        }
-                    }
-                }
-                for (var  entry : threats_Wking.entrySet()){
-                    if (king_under_check(entry.getKey(), entry.getValue(), isKing)) {
-                        origin.addPiece(o_piece);
-                        if (t_piece == null)
-                            target.removePiece();
-                        else
-                            target.addPiece(t_piece);
-                        update_kingSq_helper(origin);
-                        return false;
-                    }
-                }
-            }
-            //Resetting to original configuration.
-            origin.addPiece(o_piece);
-            if (t_piece == null)
-                target.removePiece();
-            else
-                target.addPiece(t_piece);
-            update_kingSq_helper(origin);
-            return true;
         }
+        //If the clickedSquare piece is White.
+        else{
+            //If the moving piece is a king, this code prevents it from walking into a check by an enemy piece
+            // that was not in its threat list previously
+            if (isKing){
+                for (int i = 0; i < 8; i++){
+                    for (int j = 0; j < 8; j++){
+                        if (Squares[i][j].isChessPiece() && Squares[i][j].getColor().equals(Color.BLACK)){
+                            if (Squares[i][j].getPiece().kill(bKingsq)) {
+                                if (Squares[i][j].getPiece() instanceof Knight)
+                                    threats_Wking.put(Squares[i][j], check_direction(Squares[i][j], 0));
+                                else
+                                    threats_Wking.put(Squares[i][j], check_direction(Squares[i][j], -1));
+                            }
+                        }
+                    }
+                }
+            }
+            for (var  entry : threats_Wking.entrySet()){
+                if (king_under_check(entry.getKey(), entry.getValue(), isKing)) {
+                    origin.addPiece(o_piece);
+                    if (t_piece == null)
+                        target.removePiece();
+                    else
+                        target.addPiece(t_piece);
+                    update_kingSq_helper(origin);
+                    return false;
+                }
+            }
+        }
+        //Resetting to original configuration.
+        origin.addPiece(o_piece);
+        if (t_piece == null)
+            target.removePiece();
+        else
+            target.addPiece(t_piece);
+        update_kingSq_helper(origin);
+        System.out.println("REturning true for " + origin.getPosition() + " to " + target.getPosition());
+        return true;
+    }
 
     //An auxiliary method that checks the Cardinal or Diagnol direction from which a threat threatens a King.
     //Uses a numbering system of 8 to denote these directions, starting with North-west as 1 and
@@ -747,6 +757,7 @@ public class Board extends StackPane {
      * @return          return the check direction.
      */
     private int check_direction(Square sq, int direction) {
+        System.out.println("check direction");
         Square enemy_King;
         if (sq.getColor().equals(Color.BLACK))
             enemy_King = wKingsq;
@@ -799,6 +810,7 @@ public class Board extends StackPane {
      * @return          Returns true if the enemy king of sq is under check and return false otherwise.
      */
     private boolean king_under_check(Square sq, int direction, boolean isKing) {
+        System.out.println("king under check");
         getIndexSquares(sq);
         Square enemy_King;
         //Choosing the enemyKing bases on clickedSquare piece's color
@@ -815,7 +827,7 @@ public class Board extends StackPane {
                 return false;
         }
 
-        //Since a Knight can move over pieces, its kill method return if true, always means a check on the enemy king.
+        //Since a Knight can move over pieces, its kill method's return if true, always means a check on the enemy king.
         if (sq.getPiece() instanceof Knight) {
             if (sq.getPiece().kill(enemy_King))
                 return true;
@@ -881,6 +893,23 @@ public class Board extends StackPane {
             }
         }
         return false;
+    }
+
+    /**
+     * When a pawn reaches the opposite end of the board, this method allows the user to choose a promotion for the pawn.
+     * @param sq   square that might contain a pawn
+     * @param row  the current row of the piece in square.
+     */
+    private void check_for_promotion(Square sq, int row){
+        if (sq.getPiece() instanceof Pawn){
+            if (sq.getColor().equals(Color.BLACK) && row == 7){
+                check_for_promotion_helper(sq);
+            }
+            else if (sq.getColor().equals(Color.WHITE) && row == 0){
+                check_for_promotion_helper(sq);
+            }
+        }
+
     }
 
     /**
@@ -965,6 +994,7 @@ public class Board extends StackPane {
      * @param color the color of the King chess piece currently under check
      */
     private void isaCheckMate(Color color){
+        System.out.println("is a checkmate");
         setStrokeBlack();
         //First 2 nested loops to find and iterate over all ally chess pieces of the king under Check.
         for (int i = 0 ; i < 8; i++){
@@ -990,54 +1020,48 @@ public class Board extends StackPane {
 
         //If move is not found, the defending player is under Checkmate. This code creates
         // a new VBox pane to display a Game Over prompt.
-        try{
-            VBox pane = new VBox();
-            Text txt = new Text("CHECK MATE");
-            txt.setFill(Color.DARKRED);
-            txt.setFont(Font.font("Comic Sans MS", 30));
-            Text txt2;
-            if (color.equals(Color.BLACK)){
-                txt2 = new Text("BLACK WINS !!!");
-                txt2.setFill(Color.BLACK);
-            }
-            else{
-                txt2 = new Text("WHITE WINS !!!");
-                txt2.setFill(Color.WHITE);
-            }
-            txt2.setFont(Font.font("Comic Sans MS" , 30));
-            pane.setAlignment(Pos.CENTER);
-            pane.getChildren().add(txt);
-            pane.getChildren().add(txt2);
-            pane.setMaxSize(300, 100);
-            pane.setMinSize(300, 100);
-
-            pane.setBackground(new Background(
-                    new BackgroundFill(Color.rgb(180,133,63),
-                            new CornerRadii(10),
-                            Insets.EMPTY)));
-            BorderStroke borderStroke = new BorderStroke(
-                    Color.BLACK,
-                    BorderStrokeStyle.SOLID,
-                    new CornerRadii(10),
-                    new BorderWidths(3)
-            );
-            pane.setBorder(new Border(borderStroke));
-            gridPane.setDisable(true);
-            getChildren().add(pane);
-
+        VBox pane = new VBox();
+        Text txt = new Text("CHECK MATE");
+        txt.setFill(Color.DARKRED);
+        txt.setFont(Font.font("Comic Sans MS", 30));
+        Text txt2;
+        if (color.equals(Color.BLACK)){
+            txt2 = new Text("BLACK WINS !!!");
+            txt2.setFill(Color.BLACK);
         }
-        catch (NullPointerException e){
+        else{
+            txt2 = new Text("WHITE WINS !!!");
+            txt2.setFill(Color.WHITE);
         }
+        txt2.setFont(Font.font("Comic Sans MS" , 30));
+        pane.setAlignment(Pos.CENTER);
+        pane.getChildren().add(txt);
+        pane.getChildren().add(txt2);
+        pane.setMaxSize(300, 100);
+        pane.setMinSize(300, 100);
+        pane.setBackground(new Background(
+                new BackgroundFill(Color.rgb(180,133,63),
+                        new CornerRadii(10),
+                        Insets.EMPTY)));
+        BorderStroke borderStroke = new BorderStroke(
+                Color.BLACK,
+                BorderStrokeStyle.SOLID,
+                new CornerRadii(10),
+                new BorderWidths(3)
+        );
+        pane.setBorder(new Border(borderStroke));
+        gridPane.setDisable(true);
+        getChildren().add(pane);
     }
 
     /**
      * If a pawn reaches the opposite end, this method promotes it to a Chess piece selected by the Player
      *
      * @param event This is the mouseclick on promotion choice for the pawn that is to be promoted.
-     * @param sq    This is the sq that contains the pawn chess piece to be promoted.
+     * @param sq    This is the square that contains the pawn chess piece to be promoted.
      */
     private void promotion(MouseEvent event, Square sq){
-        Color color = sq.getColor();
+        Color color = sq.getPiece().getColor();
         Piece piece = null;
         gridPane.setDisable(true);
         if (event.getSource().equals(queen_Button)){

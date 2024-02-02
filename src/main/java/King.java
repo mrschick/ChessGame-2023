@@ -19,7 +19,6 @@ public class King implements Piece {
      * @param color The Color of the King which can be Black or White.
      */
     public King(Color color){
-        list = new ArrayList<>();
         this.color = color;
     }
 
@@ -101,6 +100,7 @@ public class King implements Piece {
      * Does not determine if the moves and kills are legal or illegal.
      */
     private void allLegalMoves(){
+        list = new ArrayList<>();
         int column = position.charAt(0);
         int row = Integer.parseInt(position.substring(1));
 
