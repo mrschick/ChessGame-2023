@@ -52,11 +52,16 @@ The Sqaure.java class is used to create chess board squares that can contain che
 class uses these square objects to create a functioning 2D chess board. 
 
 #### Third Party Libraries:
-* org.junit.jupiter:junit-jupiter-api (Version: 5.7.1)
-* org.junit.jupiter:junit-jupiter-engine (Version: 5.7.1
+Following maven plugins were used:
 * org.apache.maven.plugins:maven-compiler-plugin (Version: 3.8.1)
 * org.apache.maven.plugins:maven-resources-plugin (Version: 3.2.0)
 * org.apache.maven.plugins:maven-surefire-plugin (Version: 3.0.0)
+* org.codehaus.mojo: exec-maven-plugin (Version: 3.1.1)
+* org.apache.maven.plugins:maven-javadoc-plugin (Version: 3.6.3)
+In addition, following dependencies we used the following used:
+* org.junit.jupiter:junit-jupiter-api (Version: 5.7.0)
+* org.junit.jupiter:junit-jupiter-engine (Version: 5.7.0)
+* org.jacoco.org.jacoco.report (Version: 0.8.7)
 
 #### Programming Techniques Used:
 We used the following techniques while developing our project:
