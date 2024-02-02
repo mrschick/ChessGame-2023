@@ -30,7 +30,7 @@ Follow these instructions to run the application
    * Finally, to run the application type in the command: <br> ```mvn exec: java```<br>
    * If this doesn't work, type in the command: <br>  ```java -jar ./target/ChessGame-1.0-jar-with-dependencies.jar```
     
-3. You can run the tests with the command: <br> ```mvn tests``` <br>
+3. You can run the tests with the command: <br> ```mvn test``` <br>
 4. JavaDocs can be found inside the directory ChessGame-1.0/apidocs.
 
 ### User's Guide
