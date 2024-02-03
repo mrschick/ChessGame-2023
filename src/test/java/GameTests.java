@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import javafx.embed.swing.JFXPanel;
 
-public class Tests {
+public class GameTests {
 
     JFXPanel jfxPanel = new JFXPanel();
     ColorScheme colorScheme= new ColorScheme(
