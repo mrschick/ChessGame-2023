@@ -1,4 +1,4 @@
-# Programming Project 2022-23
+# UNIBZ Programming Project 2023
 
 ## The Goal
 To create a 2D Chess Game in Java.
