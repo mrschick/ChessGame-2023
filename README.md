@@ -51,7 +51,7 @@ Alternatively, you can download the latest packaged `.jar` file from the [releas
 5. Click on the chess piece that you want to move.
    * The square with a yellow outline means a move is available on that square.
    * The square with a green outline means a kill is available on that square.
-   * The king with a yellow outline means that the king is under check.
+   * The king with a red outline means that the king is under check and only moves that get him out of check are allowed.
 6. If any pawn reaches the other end of board, choose the piece you want to promote your pawn to by clicking on the piece.
 7. The game ends when one of the players is checkmated.
 
