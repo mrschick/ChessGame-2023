@@ -27,7 +27,7 @@ public class Board extends StackPane {
     private final Color p_move = Color.GOLD;
     private final Color p_kill = Color.DARKGREEN;
     private final Color p_check = Color.RED;
-    private boolean white_turn = false;
+    private boolean white_turn = true;
     private Square wKingsq, bKingsq;
     private int bKing_row, bKing_col;
     boolean wKing_checked, bKing_checked;
