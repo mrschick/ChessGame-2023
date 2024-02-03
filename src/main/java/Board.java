@@ -1116,4 +1116,6 @@ public class Board extends StackPane {
             }
         }
     }
+
+    private Square[][] getSquares(){return Squares};
 }
