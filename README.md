@@ -43,7 +43,7 @@ Follow these instructions to run the application
 ### Run packaged release
 Alternatively, you can download the latest packaged `.jar` file from the [release section](https://github.com/mrschick/ChessGame-2023/releases). It contains all data needed to run the game and only requires [Java](https://www.java.com/en/download/) to be installed.
 
-### User's Guide
+## User's Guide
 1. Launch the application
 2. Click on the Button "Start Game"
 3. The White Player has the first turn.
@@ -55,10 +55,10 @@ Alternatively, you can download the latest packaged `.jar` file from the [releas
 6. If any pawn reaches the other end of board, choose the piece you want to promote your pawn to by clicking on the piece.
 7. The game ends when one of the players is checkmated.
 
-### Project Implementation
+## Project Implementation
 We implemented the projected Java and the javafx library for the Graphical User Interface. All the chess piece classes implement the interface "Piece.java". This allows for generic return types and generic parameters to be used in methods. The Sqaure.java class is used to create chess board squares that can contain chess pieces or can be empty. The Board class uses these square objects to create a functioning 2D chess board.
 
-#### Third Party Libraries:
+### Third Party Libraries:
 The following maven plugins were used:
 * org.apache.maven.plugins:maven-compiler-plugin (Version: 3.8.1)
 * org.apache.maven.plugins:maven-resources-plugin (Version: 3.2.0)
@@ -70,7 +70,7 @@ In addition, we used the following dependencies:
 * org.junit.jupiter:junit-jupiter-engine (Version: 5.7.0)
 * org.jacoco.org.jacoco.report (Version: 0.8.7)
 
-#### Programming Techniques Used:
+### Programming Techniques Used:
 We used the following techniques while developing our project:
 * __Interface__ was used to allow for uniform implementation of all Chess piece Objects.
 * __Generic Methods__ were used to allow for different chess pieces to be used.
@@ -83,17 +83,17 @@ We used the following techniques while developing our project:
 * __Graphical User Interface__ was the core part of the project as it allowed players to interact with the game.
 * __Casting__ was often used to convert data types with allowed for a vast range of operations on certain variables.
 
-### Experience
-#### Organization
-The project was loosely organized, allowing for each memberr to choose what they want to work on.
+## Experience
+### Organization
+The project was loosely organized and largely decentralized, allowing for each member to choose what they wanted to work on.
 * __Sharjeel Zahid Mahmood:__ My responsibilities encompassed the design of the structure and implementation of the Java classes that created chess objects, with a particular focus on the backend to ensure seamless execution of the chess game logic. I worked with the team on desingn efforts and integrated the backend with the frontend for a visually appealing chess game and a smooth user interaction. Additionally, I collaborated with team members to integrate and optimize the project using Maven, ensuring a streamlined and efficient development process.
 * __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into OOP programming. I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
 * __Fabio Schick:__
 
-#### Git 
+### Git 
 Git was mostly used for version control, creating branches for working on each scope of the project. Pull requests were used to review and merge the specific braches into master.
 
-#### Challanges
+### Challanges
 * __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, overtime it became easier to come up with these solutions.
 * __Ridvan Plluzhina:__ The project had its tough moments, especially when dealing with the complex rules of chess.
 * Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming them was incredibly satisfying. Through this project, I learned not just about programming, but also about problem-solving and persistence.
