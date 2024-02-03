@@ -41,7 +41,7 @@ Follow these instructions to run the application
 4. JavaDocs can be found inside the directory `ChessGame-1.0/apidocs`.
 
 ### Run packaged release
-Alternatively, you can download the latest packaged `.jar` file from the [release section](https://github.com/mrschick/ChessGame-2023/releases). It contains all data needed to run the game and only requires Java to be installed.
+Alternatively, you can download the latest packaged `.jar` file from the [release section](https://github.com/mrschick/ChessGame-2023/releases). It contains all data needed to run the game and only requires [Java](https://www.java.com/en/download/) to be installed.
 
 ### User's Guide
 1. Launch the application
