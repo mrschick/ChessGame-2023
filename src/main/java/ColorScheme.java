@@ -1,9 +1,8 @@
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class ColorScheme extends GridPane {
     final float squaresize = 30;
