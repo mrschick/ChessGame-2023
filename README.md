@@ -46,8 +46,8 @@ Alternatively, you can download the latest packaged `.jar` file from the [releas
 ### User's Guide
 1. Launch the application
 2. Click on the Button "Start Game"
-3. The Black Player has the first turn.
-4. The White Player gets the second turn.
+3. The White Player has the first turn.
+4. The Black Player gets the second turn.
 5. Click on the chess piece that you want to move.
    * The square with a yellow outline means a move is available on that square.
    * The square with a green outline means a kill is available on that square.
