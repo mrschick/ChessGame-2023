@@ -1,11 +1,9 @@
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import javafx.embed.swing.JFXPanel;
 
 public class Tests {
 
-    JFXPanel jfxPanel = new JFXPanel();
     ColorScheme colorScheme= new ColorScheme(
             Color.rgb(133, 94, 66),
             Color.rgb(222, 184, 135),
