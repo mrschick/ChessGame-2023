@@ -13,6 +13,9 @@ This Project was developed by:
 This Project is a chess game developed in Java completely, featuring a Graphical User Interface where two players can play a chess game.  <br>
 The application enforces standard chess rules and provides a visually appealing game board.
 
+## Demo video:
+```https://youtu.be/ANdLiSBN52g```
+
 ## Building and Running the Project
 
 ### Prerequisites
