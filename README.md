@@ -90,8 +90,8 @@ The project was loosely organized and largely decentralized, allowing for each m
 * __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into OOP programming. I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
 * __Fabio Schick:__
 
-### Git 
-Git was mostly used for version control, creating branches for working on each scope of the project. Pull requests were used to review and merge the specific braches into master.
+### The use of Git 
+Git was used for version control, by creating separate branches to deconflict concurrent work on different scopes of the project. Pull requests were used to merge the specific work branches back into into the `master` branch, after a code-review approval from every team member. This way, issues stemming from uncontrolled committing directly into the `master` branch was avoided completely.
 
 ### Challanges
 * __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, overtime it became easier to come up with these solutions.
