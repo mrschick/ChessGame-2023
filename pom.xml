@@ -59,8 +59,9 @@
             <artifactId>javafx-swing</artifactId>
             <version>20.0.2</version>
         </dependency>
-    </dependencies>
 
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>

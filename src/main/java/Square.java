@@ -5,8 +5,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-//import java.util.Stack;
-
+/**
+ * This Class creates a Square object as a GUI rectangle object.
+ *
+ * @author Sharjeel Zahid Mahmood.
+ */
 public class Square extends StackPane {
 
     String position;
@@ -15,13 +18,19 @@ public class Square extends StackPane {
     private Piece chessPiece = null;
     private Image img;
 
-    //Constructor to use Square object as a chess square.
+    /**
+     * This is a constructor to create a Square object as an empty chess square.
+     */
     public Square(){
         getChildren().add(square);
         square.setStroke(Color.BLACK);
     }
 
-    //Constructor to use Square object as a chess piece.
+    /**
+     * This is a constructor to create a Square object that contains a chess piece.
+     * @param chessPiece The chess piece that is to be added inside this.Square
+     * @param <T> Could be any class that implements the Piece interface.
+     */
     public <T extends Piece> Square(T chessPiece) {
         square.setFill(Color.GREEN);
         square.setStroke(Color.BLACK);
@@ -34,11 +43,18 @@ public class Square extends StackPane {
         getChildren().add(image);
     }
 
-
+    /**
+     * This is a getter method for the position of this.Square
+     * @return Returns the Chess Board postion of this.Square as a String.
+     */
     public String getPosition() {
         return position;
     }
 
+    /**
+     * This is a setter method for the position of this.Square
+     * @param pos Contains the Chess Board position of this.Square to be set.
+     */
     public void setPosition(String pos) {
         this.position = pos;
         if (isChessPiece()){
@@ -46,10 +62,18 @@ public class Square extends StackPane {
         }
     }
 
+    /**
+     * Sets the color of the this.Square.
+     * @param color the color of the square.
+     */
     public void setColor(Paint color) {
         square.setFill(color);
     }
 
+    /**
+     * Gets the Color of this.Square depending on if its empty or contains a chess piece.
+     * @return Return the color of the chess piece that this.Square contains, returns the color of the empty square otherwise.
+     */
     public Color getColor(){
         if (isChessPiece())
             return chessPiece.getColor();
@@ -58,6 +82,11 @@ public class Square extends StackPane {
     }
 
     //Checks if square is a chess piece or a square
+
+    /**
+     * This method is used to check if this.Square contains a chess piece or is empty.
+     * @return true if this.Square contains a chess piece, otherwise returns false.
+     */
     public boolean isChessPiece(){
         if(contains_chess_piece)
             return true;
@@ -65,27 +94,35 @@ public class Square extends StackPane {
             return false;
     }
 
+    /**
+     * This method is used to set the border stroke of this.Square.
+     * @param color this is the color of the stroke to be set.
+     */
     public void setStroke(Color color) {
         square.setStroke(color);
     }
+
+    /**
+     * This method is used to get the color of the border stroke of this.Square
+     * @return Returns the Color of this.Square's stroke.
+     */
     public Color getStroke(){return (Color) square.getStroke();}
 
-    public <T extends Piece> void replacePiece(T chessPiece){
-        this.chessPiece = chessPiece;
-        this.chessPiece.setPosition(getPosition());
-        this.img = new Image(chessPiece.getImageAddress());
-        ImageView image = new ImageView();
-        image.setImage(img);
-        getChildren().remove(1);
-        getChildren().add(image);
-    }
-
+    /**
+     * This method is used to remove the chess Piece from this.Square and set the appropriate flags.
+     */
     public void removePiece(){
         this.chessPiece = null;
         contains_chess_piece = false;
         getChildren().remove(1);
     }
 
+    /**
+     * This method is used to add a chess piece to this.Square and change the value of related variables.
+     * @param chessPiece Contains the chess piece that is to be added to this.Square
+     * @param <T>        makes the parameter a generic type so that any Class that implements the Piece interface
+     *            can be passed as a parameter.
+     */
     public <T extends Piece>void addPiece(T chessPiece){
         if (contains_chess_piece)
             getChildren().remove(1);
@@ -97,16 +134,16 @@ public class Square extends StackPane {
         getChildren().add(image);
     }
 
+    /**
+     * This method is used to get the piece inside this.Square
+     * @return Returns this.Square's chess piece.
+     */
     public Piece getPiece(){
         return chessPiece;
     }
 
-    public <T extends  Piece> void setPiece(T chessPiece) {
+    private <T extends  Piece> void setPiece(T chessPiece) {
         this.chessPiece = chessPiece;
         this.contains_chess_piece = true;
-    }
-
-    public void setContains_chess_piece(boolean f) {
-        contains_chess_piece = f;
     }
 }
