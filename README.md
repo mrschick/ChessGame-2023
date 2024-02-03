@@ -14,7 +14,7 @@ This Project is a chess game developed entirely in Java, featuring a Graphical U
 The application enforces standard chess rules and provides a visually appealing game board.
 
 ## Demo video:
-```https://youtu.be/ANdLiSBN52g```
+https://youtu.be/ANdLiSBN52g
 
 ## Building and Running the Project
 
