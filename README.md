@@ -85,16 +85,16 @@ We used the following techniques while developing our project:
 
 ## Experience
 ### Organization
-The project was loosely organized and largely decentralized, allowing for each member to choose what they wanted to work on.
+The project was loosely organized and largely decentralized, allowing each member to choose what they wanted to work on.
 * __Sharjeel Zahid Mahmood:__ My responsibilities encompassed the design of the structure and implementation of the Java classes that created chess objects, with a particular focus on the backend to ensure seamless execution of the chess game logic. I worked with the team on desingn efforts and integrated the backend with the frontend for a visually appealing chess game and a smooth user interaction. Additionally, I collaborated with team members to integrate and optimize the project using Maven, ensuring a streamlined and efficient development process.
 * __Ridvan Plluzhina:__ Creating a chess game in Java was a great learning experience for me. I got to dive deeper into OOP programming. I also explored JavaFX, a tool for building the game's interface, which is what players see and interact with. It was exciting to see how code turns into a visual game that people can play.
-* __Fabio Schick:__
+* __Fabio Schick:__ This project was an excellent opportunity for me to gain experience at working in a decentralized team of peers with similar levels of experience. My previous experience in project collaboration using Git and GitHub helped in promoting good code-review practices, although the requirement of approvals from 2 other members may have been too restrictive at times.
 
 ### The use of Git 
 Git was used for version control, by creating separate branches to deconflict concurrent work on different scopes of the project. Pull requests were used to merge the specific work branches back into into the `master` branch, after a code-review approval from every team member. This way, issues stemming from uncontrolled committing directly into the `master` branch was avoided completely.
 
-### Challanges
+### Challenges
 * __Sharjeel Zahid Mahmood:__ I found it difficult to come up with the logic for the implementation of chess rules. But, overtime it became easier to come up with these solutions.
-* __Ridvan Plluzhina:__ The project had its tough moments, especially when dealing with the complex rules of chess.
-* Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming them was incredibly satisfying. Through this project, I learned not just about programming, but also about problem-solving and persistence.
-* __Fabio Schick:__ 
+* __Ridvan Plluzhina:__ The project had its tough moments, especially when dealing with the complex rules of chess.<br>
+Each piece moves differently, and I had to ensure the game followed these rules correctly. Another challenge was designing the game so that it looked good and was easy for players to use. Despite these challenges, overcoming them was incredibly satisfying. Through this project, I learned not just about programming, but also about problem-solving and persistence.
+* __Fabio Schick:__ My personal limitations when dealing with the java language were a big learning experience during this project, providing me with good insight in what to improve in the future.
