@@ -2,7 +2,7 @@ import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class Tests {
+public class GameTests {
 
     ColorScheme colorScheme= new ColorScheme(
             Color.rgb(133, 94, 66),
@@ -144,5 +144,9 @@ public class Tests {
         squares[2][0].removePiece();
 
     }
+
+    /*@Test
+    void testWhiteFirstMove() {
+    }*/
 
 }
