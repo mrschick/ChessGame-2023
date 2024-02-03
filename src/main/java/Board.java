@@ -53,6 +53,8 @@ public class Board extends StackPane {
         this.light = colorScheme.light;
         this.background = colorScheme.boardBg;
         setBackground(new Background(new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY)));
+        gridPane.setPadding(new Insets(0,0,5,85));
+
 
         //adds Pawn Squares to table Squares[][].
         for (int column = 0; column < 8; column++) {
